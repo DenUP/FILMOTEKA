@@ -1,9 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class AuthWidgets extends StatefulWidget {
   const AuthWidgets({super.key});
@@ -61,10 +56,11 @@ class __FormWidgetState extends State<_FormWidget> {
           height: 20,
         ),
         TextField(
+          keyboardType: TextInputType.emailAddress,
           autocorrect: false,
           obscureText: true,
           decoration: InputDecoration(
-              suffixIcon: Icon(Icons.password_outlined),
+              suffixIcon: const Icon(Icons.password_outlined),
               isCollapsed: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -84,6 +80,7 @@ class __FormWidgetState extends State<_FormWidget> {
         const SizedBox(
           height: 40,
         ),
+        // Кнопка
         ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Stack(
@@ -99,7 +96,7 @@ class __FormWidgetState extends State<_FormWidget> {
               TextButton(
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 100, vertical: 10),
+                        horizontal: 140, vertical: 15),
                   ),
                   onPressed: () {},
                   child: const Text(
@@ -107,6 +104,11 @@ class __FormWidgetState extends State<_FormWidget> {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ))
             ],
+          ),
+        ),
+        Center(
+          child: Row(
+            children: [Text('Don\'t have account? SIGN UP')],
           ),
         )
       ],
