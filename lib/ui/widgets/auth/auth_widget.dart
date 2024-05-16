@@ -43,12 +43,34 @@ class _FormWidget extends StatefulWidget {
 }
 
 class __FormWidgetState extends State<_FormWidget> {
+  final _loginController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  String? errorText = null; // maybe null is not
+  void _auth() {
+    final login = _loginController.text;
+    final password = _passwordController.text;
+
+    if (login == 'admin' && password == 'admin') {
+      errorText = null;
+      print('Open app');
+    } else {
+      print('Close');
+      errorText = 'Не верный логин или пароль';
+    }
+    setState(() {});
+  }
+
+  void _resetPassword() {}
+
   @override
   Widget build(BuildContext context) {
+    final errorText = this.errorText;
     return Column(
       children: [
-        const TextField(
-          decoration: InputDecoration(
+        TextField(
+          controller: _loginController,
+          decoration: const InputDecoration(
               isCollapsed: true,
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -60,14 +82,24 @@ class __FormWidgetState extends State<_FormWidget> {
           height: 20,
         ),
         TextField(
+          controller: _passwordController,
           keyboardType: TextInputType.emailAddress,
           autocorrect: false,
           obscureText: true,
           decoration: mainStyle.decorationText,
         ),
-        const SizedBox(
-          height: 50,
-        ),
+        if (errorText != null)
+          Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                errorText,
+                style: const TextStyle(color: colors.error),
+              ),
+            ],
+          ),
         TextButton(
           onPressed: () {},
           child: const Text('FORGOT PASSWORD',
@@ -95,7 +127,9 @@ class __FormWidgetState extends State<_FormWidget> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 140, vertical: 15),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _auth();
+                  },
                   child: const Text(
                     'Log in',
                     style: TextStyle(color: Colors.white, fontSize: 16),
