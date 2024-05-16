@@ -1,4 +1,8 @@
+import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/Theme/style.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AuthWidgets extends StatefulWidget {
   const AuthWidgets({super.key});
@@ -59,17 +63,10 @@ class __FormWidgetState extends State<_FormWidget> {
           keyboardType: TextInputType.emailAddress,
           autocorrect: false,
           obscureText: true,
-          decoration: InputDecoration(
-              suffixIcon: const Icon(Icons.password_outlined),
-              isCollapsed: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-              hintText: 'Password'),
+          decoration: mainStyle.decorationText,
         ),
         const SizedBox(
-          height: 40,
+          height: 50,
         ),
         TextButton(
           onPressed: () {},
@@ -78,7 +75,7 @@ class __FormWidgetState extends State<_FormWidget> {
                   color: Color.fromRGBO(82, 82, 199, 1), fontSize: 14)),
         ),
         const SizedBox(
-          height: 40,
+          height: 10,
         ),
         // Кнопка
         ClipRRect(
@@ -106,11 +103,29 @@ class __FormWidgetState extends State<_FormWidget> {
             ],
           ),
         ),
-        Center(
-          child: Row(
-            children: [Text('Don\'t have account? SIGN UP')],
-          ),
-        )
+        const SizedBox(
+          height: 20,
+        ),
+        RichText(
+          text: TextSpan(
+              text: 'Don\'t have account?',
+              style: const TextStyle(fontSize: 14, color: Colors.black),
+              children: <TextSpan>[
+                TextSpan(
+                    text: 'SIGN UP',
+                    style: const TextStyle(color: colors.purple2),
+                    recognizer: TapGestureRecognizer()..onTap = () {})
+              ]),
+        ),
+
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   mainAxisSize: MainAxisSize.max,
+        //   children: [
+        //     const Text('Don\'t have account?'),
+        //     TextSpan(
+        //       onPressed: () {}, child: const Text('SIGN UP'))
+        //   ],
+        // )
       ],
     );
   }
