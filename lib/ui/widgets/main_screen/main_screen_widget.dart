@@ -26,9 +26,6 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Film'),
-      ),
       body: Center(
         child: _widgetOptions[_selectedTab],
       ),
