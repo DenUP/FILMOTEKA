@@ -1,10 +1,55 @@
 import 'package:filmoteka/Theme/color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class MovieList extends StatelessWidget {
-  const MovieList({super.key});
+class Movie {
+  final String title;
+  final String time;
+  final String description;
+  final String image;
+
+  Movie(
+      {required this.title,
+      required this.time,
+      required this.description,
+      required this.image});
+}
+
+class MovieListWidget extends StatelessWidget {
+  final _movies = [
+    Movie(
+        title: '1+1',
+        description:
+            'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
+        image: 'assets/post/one_one.jpg',
+        time: '23 сентября 2011'),
+    Movie(
+        title: 'Я делаю шаг',
+        description:
+            'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
+        image: 'assets/post/delay_shag.jpg',
+        time: '7 сентября 2023'),
+    Movie(
+        title: 'Джентльмены',
+        description:
+            'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
+        image: 'assets/post/djentelmen.jpg',
+        time: '3 декабря 2019'),
+    Movie(
+        title: 'Исходный код',
+        description:
+            'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
+        image: 'assets/post/code_ish.jpg',
+        time: '11 марта 2011'),
+    Movie(
+        title: 'Поймай меня, если сможешь',
+        description:
+            'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
+        image: 'assets/post/start.jpg',
+        time: '16 декабря 2002'),
+  ];
+
+  MovieListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +60,7 @@ class MovieList extends StatelessWidget {
           child: TextField(
             decoration: InputDecoration(
                 hintText: 'Search',
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.search,
                   color: colors.purple2,
                 ),
@@ -27,9 +72,10 @@ class MovieList extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: _movies.length,
         itemExtent: 336,
         itemBuilder: (context, index) {
+          final _movie = _movies[index];
           return Container(
             color: colors.greyBackground,
             child: Padding(
@@ -56,24 +102,28 @@ class MovieList extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  'Title Film',
+                                  _movie.title,
                                   // Чтобы текст не заходил за границы
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: colors.primary, fontSize: 16),
                                 ),
                               ),
                               Text(
-                                '26 октября 2024',
+                                _movie.time,
                                 maxLines: 1,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: colors.placeholder, fontSize: 14),
                               )
                             ],
                           ),
                         ),
-                        Image.asset('assets/post/post.png'),
+                        Image.asset(
+                          width: 395,
+                          height: 225,
+                          _movie.image,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 14, vertical: 10),

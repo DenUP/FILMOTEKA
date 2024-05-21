@@ -10,9 +10,9 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     Text('Главная'),
-    MovieList(),
+    MovieListWidget(),
     Text('Сериалы'),
   ];
 
