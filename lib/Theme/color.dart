@@ -8,4 +8,5 @@ abstract class colors {
   static const placeholder = Color.fromRGBO(189, 189, 189, 1);
   static const secondar = Color.fromRGBO(130, 130, 130, 1);
   static const greyBackground = Color.fromRGBO(246, 247, 249, 1);
+  static const fieldBackground = Color.fromRGBO(243, 245, 247, 1);
 }

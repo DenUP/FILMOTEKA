@@ -59,15 +59,27 @@ class MovieListWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: TextField(
             decoration: InputDecoration(
+                filled: true,
+                fillColor: colors.fieldBackground,
                 hintText: 'Search',
+                hintStyle: const TextStyle(color: colors.placeholder),
                 prefixIcon: const Icon(
                   Icons.search,
                   color: colors.purple2,
                 ),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30))),
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(
+                      style: BorderStyle.solid,
+                      color: colors.purple2,
+                      width: 1.5),
+                )),
           ),
         ),
       ),
