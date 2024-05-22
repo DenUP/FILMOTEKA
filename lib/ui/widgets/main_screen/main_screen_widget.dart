@@ -10,11 +10,6 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    Text('Главная'),
-    MovieListWidget(),
-    Text('Сериалы'),
-  ];
 
   void onSelectTab(int index) {
     if (_selectedTab == index) return;
@@ -26,8 +21,13 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions[_selectedTab],
+      body: IndexedStack(
+        index: _selectedTab,
+        children: [
+          Text('Главная'),
+          MovieListWidget(),
+          Text('Сериалы'),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
