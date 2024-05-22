@@ -64,7 +64,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     final search = _searchController.text;
     if (search.isNotEmpty) {
       _moviesFiltered = _movies.where((Movie movie) {
-        return movie.title.contains(search);
+        return movie.title.toLowerCase().contains(search.toLowerCase());
       }).toList();
     } else {
       _moviesFiltered = _movies;
