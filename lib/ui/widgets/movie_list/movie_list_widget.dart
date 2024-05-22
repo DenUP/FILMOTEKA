@@ -15,7 +15,14 @@ class Movie {
       required this.image});
 }
 
-class MovieListWidget extends StatelessWidget {
+class MovieListWidget extends StatefulWidget {
+  MovieListWidget({super.key});
+
+  @override
+  State<MovieListWidget> createState() => _MovieListWidgetState();
+}
+
+class _MovieListWidgetState extends State<MovieListWidget> {
   final _movies = [
     Movie(
         title: '1+1',
@@ -49,7 +56,28 @@ class MovieListWidget extends StatelessWidget {
         time: '16 декабря 2002'),
   ];
 
-  MovieListWidget({super.key});
+  final _searchController = TextEditingController();
+
+  var _moviesFiltered = <Movie>[];
+
+  void _searchMethod() {
+    final search = _searchController.text;
+    if (search.isNotEmpty) {
+      _moviesFiltered = _movies.where((Movie movie) {
+        return movie.title.contains(search);
+      }).toList();
+    } else {
+      _moviesFiltered = _movies;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    _moviesFiltered = _movies;
+    _searchController.addListener(_searchMethod);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +86,7 @@ class MovieListWidget extends StatelessWidget {
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: TextField(
+            controller: _searchController,
             decoration: InputDecoration(
                 filled: true,
                 fillColor: colors.fieldBackground,
@@ -84,10 +113,10 @@ class MovieListWidget extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: _movies.length,
+        itemCount: _moviesFiltered.length,
         itemExtent: 336,
         itemBuilder: (context, index) {
-          final _movie = _movies[index];
+          final _movie = _moviesFiltered[index];
           return Container(
             color: colors.greyBackground,
             child: Padding(
