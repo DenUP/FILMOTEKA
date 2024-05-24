@@ -1,15 +1,16 @@
 import 'package:filmoteka/Theme/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Movie {
+  final int id;
   final String title;
   final String time;
   final String description;
   final String image;
 
   Movie(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.time,
       required this.description,
       required this.image});
@@ -25,30 +26,35 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   final _movies = [
     Movie(
+        id: 1,
         title: '1+1',
         description:
             'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
         image: 'assets/post/one_one.jpg',
         time: '23 сентября 2011'),
     Movie(
+        id: 2,
         title: 'Я делаю шаг',
         description:
             'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
         image: 'assets/post/delay_shag.jpg',
         time: '7 сентября 2023'),
     Movie(
+        id: 3,
         title: 'Джентльмены',
         description:
             'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
         image: 'assets/post/djentelmen.jpg',
         time: '3 декабря 2019'),
     Movie(
+        id: 4,
         title: 'Исходный код',
         description:
             'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
         image: 'assets/post/code_ish.jpg',
         time: '11 марта 2011'),
     Movie(
+        id: 5,
         title: 'Поймай меня, если сможешь',
         description:
             'Аристократ на коляске нанимает в сиделки бывшего заключенного.',
@@ -79,10 +85,16 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     super.initState();
   }
 
+  void _onMovieTap(int index) {
+    final id = _movies[index].id;
+    Navigator.of(context).pushNamed('/main/movie_details', arguments: id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: TextField(
@@ -113,6 +125,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
         ),
       ),
       body: ListView.builder(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         itemCount: _moviesFiltered.length,
         itemExtent: 336,
         itemBuilder: (context, index) {
@@ -172,7 +185,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                             children: [
                               Image.asset('assets/post/icons/add.png'),
                               const Spacer(),
-                              Text(
+                              const Text(
                                 '20',
                                 style: TextStyle(
                                     color: colors.secondar, fontSize: 14),
@@ -184,7 +197,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                               const SizedBox(
                                 width: 16,
                               ),
-                              Text('125',
+                              const Text('125',
                                   style: TextStyle(
                                       color: colors.secondar, fontSize: 14)),
                               const SizedBox(
@@ -201,7 +214,9 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   Material(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
-                    child: InkWell(onTap: () {}),
+                    child: InkWell(
+                      onTap: () => _onMovieTap(index),
+                    ),
                   ),
                 ],
               ),

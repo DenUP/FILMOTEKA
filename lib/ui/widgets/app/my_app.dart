@@ -1,6 +1,7 @@
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
+import 'package:filmoteka/ui/widgets/movie_details/movie_details_widgets.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -10,7 +11,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
       theme: ThemeData(
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: colors.purple2,
@@ -20,7 +20,12 @@ class App extends StatelessWidget {
       routes: {
         '/': (context) => const AuthWidgets(),
         '/main': (context) => const MainScreenWidget(),
+        '/main/movie_details': (context) {
+          final id = ModalRoute.of(context)!.settings.arguments as int;
+          return MovieDetailsWidgets(movieId: id);
+        }
       },
+      initialRoute: '/',
 
       // OPEN ERROR PAGE
       onGenerateRoute: (settings) {
