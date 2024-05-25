@@ -1,3 +1,5 @@
+import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/widgets/movie_details/movie_details_info_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsWidgets extends StatefulWidget {
@@ -14,6 +16,16 @@ class MovieDetailsWidgets extends StatefulWidget {
 class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Name film',
+          style: const TextStyle(color: colors.appbarTitle),
+        ),
+      ),
+      body: ListView(
+        children: [MovieDetailsInfo()],
+      ),
+    );
   }
 }

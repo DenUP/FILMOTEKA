@@ -9,4 +9,5 @@ abstract class colors {
   static const secondar = Color.fromRGBO(130, 130, 130, 1);
   static const greyBackground = Color.fromRGBO(246, 247, 249, 1);
   static const fieldBackground = Color.fromRGBO(243, 245, 247, 1);
+  static const appbarTitle = Color.fromRGBO(0, 0, 0, 1);
 }
