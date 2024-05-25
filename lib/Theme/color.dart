@@ -10,4 +10,8 @@ abstract class colors {
   static const greyBackground = Color.fromRGBO(246, 247, 249, 1);
   static const fieldBackground = Color.fromRGBO(243, 245, 247, 1);
   static const appbarTitle = Color.fromRGBO(0, 0, 0, 1);
+  // new color
+  static const mainBackground = Color.fromRGBO(36, 42, 50, 1);
+  static const mainTitle = Color.fromRGBO(238, 238, 238, 1);
+  static const outline = Color.fromRGBO(58, 63, 71, 1);
 }

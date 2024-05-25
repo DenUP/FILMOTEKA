@@ -15,20 +15,26 @@ class _AuthWidgetsState extends State<AuthWidgets> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/auth/auth.png',
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 48),
-              child: _FormWidget(),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/auth/auth.png',
+              ),
+              const Text(
+                'Welcome to FILMOTEKA',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 48),
+                child: const _FormWidget(),
+              ),
+            ],
+          ),
         ),
       )),
     );
@@ -69,23 +75,22 @@ class __FormWidgetState extends State<_FormWidget> {
       children: [
         TextField(
           controller: _loginController,
+          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
               isCollapsed: true,
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))),
-              hintText: 'Email'),
+              hintText: 'Email',
+              hintStyle: TextStyle(color: Colors.white)),
         ),
         const SizedBox(
           height: 20,
         ),
         TextField(
           controller: _passwordController,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.visiblePassword,
           autocorrect: false,
           obscureText: true,
-          decoration: mainStyle.decorationText,
         ),
         if (errorText != null)
           Column(
