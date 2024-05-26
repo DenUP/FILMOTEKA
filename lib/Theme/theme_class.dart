@@ -41,11 +41,11 @@ class ThemeClass {
         ),
         disabledBorder: InputBorder.none),
     colorScheme: const ColorScheme.dark(
-      background: colors.greyBackground,
+      background: colors.mainBackground,
       primary: colors.purple2,
       onPrimary: colors.purple2,
-      secondary: Colors.red,
-      onSecondary: colors.tertiary,
+      secondary: colors.blue,
+      onSecondary: Color.fromARGB(255, 255, 0, 98),
     ),
   );
 }

@@ -1,4 +1,3 @@
-import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/Theme/theme_class.dart';
 import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
