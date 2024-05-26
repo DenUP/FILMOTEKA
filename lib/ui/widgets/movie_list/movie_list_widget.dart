@@ -71,116 +71,155 @@ class _MovieListWidgetState extends State<MovieListWidget> {
         duration: '89'),
   ];
 
+  var _moviesFiltered = <Movie>[];
+  final _searchControler = TextEditingController();
+
+  void _searchMovies() {
+    final search = _searchControler.text;
+    if (search.trim().isNotEmpty) {
+      _moviesFiltered = _movies.where((Movie movie) {
+        return movie.name.toLowerCase().contains(search.toLowerCase());
+      }).toList();
+
+      setState(() {});
+    } else {
+      _moviesFiltered = _movies;
+    }
+  }
+
+  @override
+  void initState() {
+    _moviesFiltered = _movies;
+    _searchControler.addListener(_searchMovies);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Фильмы'),
       ),
-      body: ListView.builder(
-        itemExtent: 170,
-        itemCount: _movies.length,
-        itemBuilder: (context, index) {
-          final movies = _movies[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  movies.image,
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movies.name,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
+      body: Stack(
+        children: [
+          ListView.builder(
+            padding: const EdgeInsets.only(top: 82),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            itemExtent: 170,
+            itemCount: _moviesFiltered.length,
+            itemBuilder: (context, index) {
+              final movies = _moviesFiltered[index];
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: Image.asset(
+                      movies.image,
+                    ),
                   ),
                   const SizedBox(
-                    height: 12,
+                    width: 15,
                   ),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.star_border,
-                        color: colors.rating,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
                       Text(
-                        movies.rating,
+                        movies.name,
                         style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star_border,
                             color: colors.rating,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.movie_creation_outlined,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            movies.rating,
+                            style: const TextStyle(
+                                color: colors.rating,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ],
                       ),
                       const SizedBox(
-                        width: 4,
+                        height: 4,
                       ),
-                      Text(
-                        movies.category,
-                        style: const TextStyle(fontSize: 12),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.calendar_month_outlined,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        movies.data,
-                        style: const TextStyle(fontSize: 12),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.access_time,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.movie_creation_outlined,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            movies.category,
+                            style: const TextStyle(fontSize: 12),
+                          )
+                        ],
                       ),
                       const SizedBox(
-                        width: 4,
+                        height: 4,
                       ),
-                      Text(
-                        '${movies.duration} minutes',
-                        style: const TextStyle(fontSize: 12),
-                      )
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.calendar_month_outlined,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            movies.data,
+                            style: const TextStyle(fontSize: 12),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.access_time,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            '${movies.duration} minutes',
+                            style: const TextStyle(fontSize: 12),
+                          )
+                        ],
+                      ),
                     ],
-                  ),
-                ],
-              )
-            ]),
-          );
-        },
+                  )
+                ]),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            child: TextField(
+              controller: _searchControler,
+              decoration: const InputDecoration(
+                hintText: 'Поиск',
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
