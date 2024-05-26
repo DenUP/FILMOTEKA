@@ -1,5 +1,4 @@
 import 'package:filmoteka/Theme/color.dart';
-import 'package:filmoteka/Theme/style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

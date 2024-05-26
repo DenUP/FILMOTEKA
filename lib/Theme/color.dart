@@ -16,4 +16,6 @@ abstract class colors {
   static const inputColor = Color.fromRGBO(58, 63, 71, 1);
   static const blue = Color.fromRGBO(2, 150, 229, 1);
   static const lightBlue = Color.fromRGBO(0, 154, 237, 1);
+  static const rating = Color.fromRGBO(255, 135, 0, 1);
+  static const categoryLight = Color.fromRGBO(238, 238, 238, 1);
 }
