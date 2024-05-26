@@ -42,8 +42,8 @@ class ThemeClass {
         disabledBorder: InputBorder.none),
     colorScheme: const ColorScheme.dark(
       background: colors.mainBackground,
-      primary: colors.purple2,
-      onPrimary: colors.purple2,
+      primary: colors.mainTitle,
+      onPrimary: colors.mainTitle,
       secondary: colors.blue,
       onSecondary: Color.fromARGB(255, 255, 0, 98),
     ),

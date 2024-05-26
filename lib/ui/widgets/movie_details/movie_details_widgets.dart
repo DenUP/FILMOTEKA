@@ -20,7 +20,7 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
       appBar: AppBar(
         title: Text(
           'Name film',
-          style: const TextStyle(color: colors.appbarTitle),
+          style: const TextStyle(color: colors.mainTitle),
         ),
       ),
       body: ListView(

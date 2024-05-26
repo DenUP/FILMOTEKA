@@ -13,7 +13,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Фильмы'),
+        title: const Text('Фильмы'),
       ),
       body: ListView.builder(
         itemExtent: 150,

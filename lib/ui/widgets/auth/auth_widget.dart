@@ -98,7 +98,7 @@ class __FormWidgetState extends State<_FormWidget> {
               ),
               Text(
                 errorText,
-                style: const TextStyle(color: colors.error),
+                style: const TextStyle(color: Colors.red),
               ),
             ],
           ),
