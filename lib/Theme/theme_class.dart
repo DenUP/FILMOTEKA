@@ -23,10 +23,11 @@ class ThemeClass {
       ),
     ),
     inputDecorationTheme: const InputDecorationTheme(
+        filled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        fillColor: Colors.red,
-        focusColor: Colors.red,
-        hoverColor: Colors.red,
+        fillColor: colors.inputColor,
+        focusColor: colors.inputColor,
+        hoverColor: colors.inputColor,
         outlineBorder: BorderSide(color: Colors.white, width: 20),
         border: InputBorder.none,
         errorBorder: InputBorder.none,
@@ -35,15 +36,16 @@ class ThemeClass {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green),
+          borderSide: BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         disabledBorder: InputBorder.none),
     colorScheme: const ColorScheme.dark(
-        background: colors.purple2,
-        primary: colors.purple2,
-        onPrimary: colors.purple2,
-        secondary: Colors.red,
-        onSecondary: colors.tertiary),
+      background: colors.greyBackground,
+      primary: colors.purple2,
+      onPrimary: colors.purple2,
+      secondary: Colors.red,
+      onSecondary: colors.tertiary,
+    ),
   );
 }

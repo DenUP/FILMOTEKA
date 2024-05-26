@@ -13,5 +13,7 @@ abstract class colors {
   // new color
   static const mainBackground = Color.fromRGBO(36, 42, 50, 1);
   static const mainTitle = Color.fromRGBO(238, 238, 238, 1);
-  static const outline = Color.fromRGBO(58, 63, 71, 1);
+  static const inputColor = Color.fromRGBO(58, 63, 71, 1);
+  static const blue = Color.fromRGBO(2, 150, 229, 1);
+  static const lightBlue = Color.fromRGBO(0, 154, 237, 1);
 }

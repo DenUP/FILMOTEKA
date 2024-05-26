@@ -2,7 +2,6 @@ import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/Theme/style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AuthWidgets extends StatefulWidget {
   const AuthWidgets({super.key});
@@ -77,11 +76,10 @@ class __FormWidgetState extends State<_FormWidget> {
           controller: _loginController,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-              isCollapsed: true,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              hintText: 'Email',
-              hintStyle: TextStyle(color: Colors.white)),
+            isCollapsed: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            hintText: 'Email',
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -91,6 +89,7 @@ class __FormWidgetState extends State<_FormWidget> {
           keyboardType: TextInputType.visiblePassword,
           autocorrect: false,
           obscureText: true,
+          decoration: const InputDecoration(hintText: 'Password'),
         ),
         if (errorText != null)
           Column(
@@ -104,11 +103,11 @@ class __FormWidgetState extends State<_FormWidget> {
               ),
             ],
           ),
+
         TextButton(
           onPressed: () {},
           child: const Text('FORGOT PASSWORD',
-              style: TextStyle(
-                  color: Color.fromRGBO(82, 82, 199, 1), fontSize: 14)),
+              style: TextStyle(color: Colors.white, fontSize: 14)),
         ),
         const SizedBox(
           height: 10,
@@ -122,8 +121,8 @@ class __FormWidgetState extends State<_FormWidget> {
                   child: Container(
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: <Color>[
-                  Color.fromRGBO(136, 139, 244, 1),
-                  Color.fromRGBO(81, 81, 198, 1)
+                  colors.lightBlue,
+                  colors.blue,
                 ])),
               )),
               TextButton(
@@ -147,11 +146,11 @@ class __FormWidgetState extends State<_FormWidget> {
         RichText(
           text: TextSpan(
               text: 'Don\'t have account?',
-              style: const TextStyle(fontSize: 14, color: Colors.black),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
               children: <TextSpan>[
                 TextSpan(
                     text: 'SIGN UP',
-                    style: const TextStyle(color: colors.purple2),
+                    style: const TextStyle(color: colors.lightBlue),
                     recognizer: TapGestureRecognizer()..onTap = () {})
               ]),
         ),
