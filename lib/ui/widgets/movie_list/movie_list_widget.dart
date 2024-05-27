@@ -87,6 +87,10 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     }
   }
 
+  void _onMovieTap(int index) {
+    print(index);
+  }
+
   @override
   void initState() {
     _moviesFiltered = _movies;
@@ -112,101 +116,112 @@ class _MovieListWidgetState extends State<MovieListWidget> {
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: Image.asset(
-                      movies.image,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        movies.name,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
+                child: Stack(
+                  children: [
+                    Row(children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.asset(
+                          movies.image,
+                        ),
                       ),
                       const SizedBox(
-                        height: 12,
+                        width: 15,
                       ),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
-                            Icons.star_border,
-                            color: colors.rating,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
                           Text(
-                            movies.rating,
+                            movies.name,
                             style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.star_border,
                                 color: colors.rating,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.movie_creation_outlined,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                movies.rating,
+                                style: const TextStyle(
+                                    color: colors.rating,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
                           ),
                           const SizedBox(
-                            width: 4,
+                            height: 4,
                           ),
-                          Text(
-                            movies.category,
-                            style: const TextStyle(fontSize: 12),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_outlined,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            movies.data,
-                            style: const TextStyle(fontSize: 12),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.movie_creation_outlined,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                movies.category,
+                                style: const TextStyle(fontSize: 12),
+                              )
+                            ],
                           ),
                           const SizedBox(
-                            width: 4,
+                            height: 4,
                           ),
-                          Text(
-                            '${movies.duration} minutes',
-                            style: const TextStyle(fontSize: 12),
-                          )
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.calendar_month_outlined,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                movies.data,
+                                style: const TextStyle(fontSize: 12),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.access_time,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                '${movies.duration} minutes',
+                                style: const TextStyle(fontSize: 12),
+                              )
+                            ],
+                          ),
                         ],
+                      )
+                    ]),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => _onMovieTap(index),
+                        borderRadius: BorderRadius.circular(18),
                       ),
-                    ],
-                  )
-                ]),
+                    )
+                  ],
+                ),
               );
             },
           ),

@@ -19,7 +19,7 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Name film',
+          'Detail',
           style: const TextStyle(color: colors.mainTitle),
         ),
       ),
