@@ -18,9 +18,9 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Detail',
-          style: const TextStyle(color: colors.mainTitle),
+          style: TextStyle(color: colors.mainTitle),
         ),
       ),
       body: ListView(

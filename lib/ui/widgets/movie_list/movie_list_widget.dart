@@ -88,7 +88,11 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   }
 
   void _onMovieTap(int index) {
-    print(index);
+    final id = _movies[index].id;
+    Navigator.of(context).pushNamed(
+      '/main/movie_details',
+      arguments: id,
+    );
   }
 
   @override
