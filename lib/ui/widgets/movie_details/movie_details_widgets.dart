@@ -18,6 +18,12 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite_border_outlined),
+            onPressed: () {},
+          ),
+        ],
         title: const Text(
           'Detail',
           style: TextStyle(color: colors.mainTitle),
