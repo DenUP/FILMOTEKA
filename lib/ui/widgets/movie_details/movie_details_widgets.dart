@@ -1,4 +1,5 @@
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/widgets/movie_details/movie_details_cast_widgets.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_info_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,13 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
         ),
       ),
       body: ListView(
-        children: [MovieDetailsInfo()],
+        children: [
+          MovieDetailsInfo(),
+          const SizedBox(
+            height: 10,
+          ),
+          MovieDetailsCastWidgets(),
+        ],
       ),
     );
   }

@@ -16,7 +16,8 @@ class MovieDetailsInfo extends StatelessWidget {
             _MovieNameWidget(),
           ],
         ),
-        _SummeryWidget()
+        _SummeryWidget(),
+        _AboutMovie()
       ],
     );
   }
@@ -180,6 +181,35 @@ class _SummeryWidget extends StatelessWidget {
             // ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _AboutMovie extends StatelessWidget {
+  const _AboutMovie({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topLeft,
+      margin: EdgeInsets.only(left: 30, top: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            textAlign: TextAlign.start,
+            // textDirection: TextDirection.ltr,
+            'About Movie',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+              'From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.')
+        ],
       ),
     );
   }
