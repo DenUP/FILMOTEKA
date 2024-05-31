@@ -1,5 +1,6 @@
 import 'package:filmoteka/Theme/theme_class.dart';
 import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
+import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_widgets.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,10 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeClass.darkTheme,
       routes: {
-        '/': (context) => const AuthWidgets(),
+        '/': (context) => AuthProvider(
+              model: AuthModel(),
+              child: const AuthWidgets(),
+            ),
         '/main': (context) => const MainScreenWidget(),
         '/main/movie_details': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments;
