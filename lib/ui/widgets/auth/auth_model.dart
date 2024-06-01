@@ -13,6 +13,7 @@ class AuthModel extends ChangeNotifier {
   bool _isAuthProgress = false;
 
   bool get canStartAuth => !_isAuthProgress;
+  bool get isAuthProgress => _isAuthProgress;
 
   Future<void> auth(BuildContext context) async {
     var login = loginController.text;

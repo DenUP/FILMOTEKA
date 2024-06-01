@@ -108,6 +108,12 @@ class _AuthButtonWidget extends StatelessWidget {
     final model = AuthProvider.watch(context)?.model;
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
+    final inpProgress = model?.isAuthProgress == true
+        ? const CircularProgressIndicator()
+        : const Text(
+            'Log in',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          );
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
       child: Stack(
@@ -126,10 +132,7 @@ class _AuthButtonWidget extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 140, vertical: 15),
               ),
               onPressed: onPressed,
-              child: const Text(
-                'Log in',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ))
+              child: inpProgress)
         ],
       ),
     );
