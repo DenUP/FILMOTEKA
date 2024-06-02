@@ -1,4 +1,5 @@
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class Movie {
@@ -90,7 +91,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   void _onMovieTap(int index) {
     final id = _movies[index].id;
     Navigator.of(context).pushNamed(
-      '/main/movie_details',
+      MainNavigationRouteName.movieDetails,
       arguments: id,
     );
   }

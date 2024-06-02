@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
 import 'package:filmoteka/main.dart';
+import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -58,7 +59,8 @@ class AuthModel extends ChangeNotifier {
       await _sessionDataProvider.setSesionId(sessionId);
       print(sessionId);
       // переход не будем ждать пусть сразу вызывает
-      unawaited(Navigator.of(context).pushNamed('/main'));
+      unawaited(
+          Navigator.of(context).pushNamed(MainNavigationRouteName.mainScreen));
     }
   }
 }
