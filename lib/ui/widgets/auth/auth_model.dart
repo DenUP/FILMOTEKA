@@ -27,16 +27,21 @@ class AuthModel extends ChangeNotifier {
     _isAuthProgress = true;
     notifyListeners();
 
-    final AuthResponse res = await supabase.auth.signInWithPassword(
-      email: loginController.text,
-      password: passwordController.text,
-    );
+    try {
+      final AuthResponse res = await supabase.auth.signInWithPassword(
+        email: loginController.text,
+        password: passwordController.text,
+      );
+
+      final Session? session = res.session;
+      final User? user = res.user;
+    } catch (e) {
+      _errorMessage = 'Не правильный логин или пароль';
+    }
     _isAuthProgress = false;
     notifyListeners();
-    final Session? session = res.session;
-    final User? user = res.user;
 
-    Navigator.of(context).pushNamed('/main');
+    // Navigator.of(context).pushNamed('/main');
   }
 }
 
