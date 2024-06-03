@@ -12,7 +12,7 @@ class MovieDetailsCastWidgets extends StatelessWidget {
         // mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Cast',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
@@ -36,7 +36,7 @@ class MovieDetailsCastWidgets extends StatelessWidget {
                             width: 200,
                           ),
                         ),
-                        Text('Tom Holland')
+                        const Text('Tom Holland')
                       ],
                     ),
                   );

@@ -21,7 +21,7 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.favorite_border_outlined),
+            icon: const Icon(Icons.favorite_border_outlined),
             onPressed: () {},
           ),
         ],
@@ -31,9 +31,9 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
         ),
       ),
       body: ListView(
-        children: [
+        children: const [
           MovieDetailsInfo(),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
           MovieDetailsCastWidgets(),

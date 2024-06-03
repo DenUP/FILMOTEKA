@@ -10,21 +10,21 @@ class MovieDetailsInfo extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
+            SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: _TopPosterWidget()),
-            _MovieNameWidget(),
+                child: const _TopPosterWidget()),
+            const _MovieNameWidget(),
           ],
         ),
-        _SummeryWidget(),
-        _AboutMovie()
+        const _SummeryWidget(),
+        const _AboutMovie()
       ],
     );
   }
 }
 
 class _TopPosterWidget extends StatelessWidget {
-  const _TopPosterWidget({super.key});
+  const _TopPosterWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +47,20 @@ class _TopPosterWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: colors.bcgRating),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.star_border,
                     color: colors.rating,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 4,
                   ),
                   Text(
                     '9.5',
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: colors.rating,
                         fontSize: 15,
                         fontWeight: FontWeight.bold),
@@ -76,7 +76,7 @@ class _TopPosterWidget extends StatelessWidget {
 }
 
 class _MovieNameWidget extends StatelessWidget {
-  const _MovieNameWidget({super.key});
+  const _MovieNameWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +96,9 @@ class _MovieNameWidget extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(
+          const Expanded(
               child: Padding(
-            padding: const EdgeInsets.only(left: 12, top: 50),
+            padding: EdgeInsets.only(left: 12, top: 50),
             child: Text(
               'Spiderman No Way Home',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
@@ -112,12 +112,12 @@ class _MovieNameWidget extends StatelessWidget {
 }
 
 class _SummeryWidget extends StatelessWidget {
-  const _SummeryWidget({super.key});
+  const _SummeryWidget();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: IntrinsicHeight(
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -187,14 +187,14 @@ class _SummeryWidget extends StatelessWidget {
 }
 
 class _AboutMovie extends StatelessWidget {
-  const _AboutMovie({super.key});
+  const _AboutMovie();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 30, top: 10),
-      child: Column(
+      margin: const EdgeInsets.only(left: 30, top: 10),
+      child: const Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -204,7 +204,7 @@ class _AboutMovie extends StatelessWidget {
             'About Movie',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
           Text(

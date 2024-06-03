@@ -23,7 +23,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedTab,
-        children: [
+        children: const [
           Text('Главная'),
           MovieListWidget(),
           Text('Сериалы'),

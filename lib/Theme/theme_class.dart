@@ -41,7 +41,7 @@ class ThemeClass {
         ),
         disabledBorder: InputBorder.none),
     colorScheme: const ColorScheme.dark(
-      background: colors.mainBackground,
+      surface: colors.mainBackground,
       primary: colors.mainTitle,
       onPrimary: colors.mainTitle,
       secondary: colors.blue,
