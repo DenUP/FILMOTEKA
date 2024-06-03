@@ -1,14 +1,13 @@
 import 'package:filmoteka/Theme/theme_class.dart';
-import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
-import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
-import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
-import 'package:filmoteka/ui/widgets/movie_details/movie_details_widgets.dart';
+import 'package:filmoteka/ui/widgets/app/my_app_model.dart';
+
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
+  final MyAppModel model;
   static final mainNavigation = MainNavigation();
-  const App({super.key});
+  const App({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeClass.darkTheme,
       routes: mainNavigation.routes,
-      initialRoute: mainNavigation.initialRoute(false),
+      initialRoute: mainNavigation.initialRoute(model.isAuth),
       onGenerateRoute: mainNavigation.onGenerateRoute,
     );
   }
