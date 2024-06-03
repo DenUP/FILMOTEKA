@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final model = MyAppModel();
-  model.checkAuth;
+  await model.checkAuth();
   await Supabase.initialize(
     url: 'https://hocmobhnhmeqwrcltwdu.supabase.co',
     anonKey:

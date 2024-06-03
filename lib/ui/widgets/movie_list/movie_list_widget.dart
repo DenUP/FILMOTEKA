@@ -1,4 +1,5 @@
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -85,6 +86,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       setState(() {});
     } else {
       _moviesFiltered = _movies;
+      setState(() {});
     }
   }
 
@@ -107,7 +109,16 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Фильмы'),
+        // Кнопка Выхода //
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                SessionDataProvider().setSesionId(null);
+              },
+              icon: const Icon(Icons.logout_sharp))
+        ],
       ),
       body: Stack(
         children: [

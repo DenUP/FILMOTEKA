@@ -5,9 +5,9 @@ import 'package:filmoteka/ui/widgets/movie_details/movie_details_widgets.dart';
 import 'package:flutter/material.dart';
 
 abstract class MainNavigationRouteName {
-  static const auth = '/';
-  static const mainScreen = '/main';
-  static const movieDetails = '/main/movie_details';
+  static const auth = 'auth';
+  static const mainScreen = '/';
+  static const movieDetails = '/movie_details';
 }
 
 class MainNavigation {
@@ -15,11 +15,11 @@ class MainNavigation {
       ? MainNavigationRouteName.mainScreen
       : MainNavigationRouteName.auth;
   final routes = <String, WidgetBuilder>{
-    '/': (context) => AuthProvider(
+    MainNavigationRouteName.auth: (context) => AuthProvider(
           model: AuthModel(),
           child: const AuthWidgets(),
         ),
-    '/main': (context) => const MainScreenWidget(),
+    MainNavigationRouteName.mainScreen: (context) => const MainScreenWidget(),
   };
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {

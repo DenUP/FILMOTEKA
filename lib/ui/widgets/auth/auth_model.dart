@@ -59,8 +59,8 @@ class AuthModel extends ChangeNotifier {
       await _sessionDataProvider.setSesionId(sessionId);
       print(sessionId);
       // переход не будем ждать пусть сразу вызывает
-      unawaited(
-          Navigator.of(context).pushNamed(MainNavigationRouteName.mainScreen));
+      unawaited(Navigator.of(context)
+          .pushReplacementNamed(MainNavigationRouteName.mainScreen));
     }
   }
 }
