@@ -1,3 +1,4 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
 import 'package:flutter/gestures.dart';
@@ -45,7 +46,7 @@ class _FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.read(context)?.model;
+    final model = NotifierProvider.read<AuthModel>(context);
     return Column(
       children: [
         TextField(
@@ -103,7 +104,7 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.watch(context)?.model;
+    final model = NotifierProvider.watch<AuthModel>(context);
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
     final inpProgress = model?.isAuthProgress == true
@@ -142,7 +143,9 @@ class _ErrorMesage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMesage = AuthProvider.watch(context)?.model.errorMessage;
+    final errorMesage =
+        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
+
     if (errorMesage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 10),

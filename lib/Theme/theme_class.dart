@@ -41,8 +41,11 @@ class ThemeClass {
         ),
         disabledBorder: InputBorder.none),
     colorScheme: const ColorScheme.dark(
-      surface: colors.mainBackground,
-      primary: colors.mainTitle,
+      surface: colors.rating,
+      background: colors.mainBackground,
+      // Background для навигации снизу
+      // background: colors.mainBackground,
+      primary: colors.mainBackground,
       onPrimary: colors.mainTitle,
       secondary: colors.blue,
       onSecondary: Color.fromARGB(255, 255, 0, 98),

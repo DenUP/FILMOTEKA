@@ -57,31 +57,9 @@ class AuthModel extends ChangeNotifier {
     } else {
       // подождем пока запишется
       await _sessionDataProvider.setSesionId(sessionId);
-      print(sessionId);
       // переход не будем ждать пусть сразу вызывает
       unawaited(Navigator.of(context)
           .pushReplacementNamed(MainNavigationRouteName.mainScreen));
     }
-  }
-}
-
-class AuthProvider extends InheritedNotifier {
-  final AuthModel model;
-  const AuthProvider({
-    required this.model,
-    required super.child,
-    super.key,
-  }) : super(
-          notifier: model,
-        );
-
-  static AuthProvider? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
-  }
-
-  static AuthProvider? read(BuildContext context) {
-    final widget =
-        context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
-    return widget is AuthProvider ? widget : null;
   }
 }
