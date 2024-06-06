@@ -11,6 +11,18 @@ class NewsCatalogWidget extends StatelessWidget {
       const spacerHeight = 44.0;
 
       double heightOfCard = (constraints.biggest.height - spacerHeight / 2.0);
+      double heightOfImages = heightOfCard;
+
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsetsDirectional.only(start: 28.0),
+            child: Image.asset('assets/post/homen3.webp'),
+          )
+        ],
+      );
     });
   }
 }
