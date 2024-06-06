@@ -1,6 +1,7 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_model.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_widget.dart';
+import 'package:filmoteka/ui/widgets/news/news_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -28,7 +29,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       body: IndexedStack(
         index: _selectedTab,
         children: const [
-          Text('Главная'),
+          NewsWidgets(),
           MovieListWidget(),
           Text('Сериалы'),
         ],
