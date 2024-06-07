@@ -25,14 +25,18 @@ class _NewsWidgetsState extends State<NewsWidgets> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            NewsRatingWidgets(),
-            SizedBox(
-              height: 100,
-              child: Container(
-                color: Colors.red,
-              ),
+            // Header  TOP 5
+            const NewsRatingWidgets(),
+            // Container
+            Text(
+              'Популярные фильмы',
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            SizedBox(height: 500, child: NewsCatalogWidget())
+            const SizedBox(
+              height: 10,
+            ),
+            const NewsCatalogWidget()
+            // SizedBox(height: 500, child: NewsCatalogWidget())
           ],
         ),
       ),
