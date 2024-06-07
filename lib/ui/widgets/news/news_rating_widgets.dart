@@ -9,7 +9,7 @@ class NewsRatingWidgets extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 300,
+          height: 250,
           child: ListView.builder(
             itemExtent: 200,
             scrollDirection: Axis.horizontal,
@@ -31,7 +31,6 @@ class NewsRatingWidgets extends StatelessWidget {
                     ),
                     Positioned(
                         height: 110,
-                        // left: 0,
                         top: 130,
                         child: Stack(
                           children: <Widget>[

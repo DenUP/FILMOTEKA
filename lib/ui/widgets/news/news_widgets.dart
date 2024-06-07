@@ -22,11 +22,19 @@ class _NewsWidgetsState extends State<NewsWidgets> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: ListView(
-        children: const [
-          NewsRatingWidgets(),
-          NewsCatalogWidget(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            NewsRatingWidgets(),
+            SizedBox(
+              height: 100,
+              child: Container(
+                color: Colors.red,
+              ),
+            ),
+            SizedBox(height: 500, child: NewsCatalogWidget())
+          ],
+        ),
       ),
     );
   }
