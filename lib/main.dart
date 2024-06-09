@@ -6,8 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final api = ApiClient();
-  await api.searchMovie();
+
   final model = MyAppModel();
   await model.checkAuth();
 

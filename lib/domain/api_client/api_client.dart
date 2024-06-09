@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:filmoteka/domain/entity/popular_movie_response.dart';
+
 class ApiClient {
   final _client = HttpClient();
   // kinopoisk
   static const _host = 'https://api.kinopoisk.dev/v1.4/';
-  // supabase auth
+  // hostmMoveSearch
   static const _hostMovie =
       'https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10';
+  //hostMovie Popular
+  static const _hosmMoviePopular =
+      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&type=movie&lists=top250';
   // img movie[kino] is not key
-  static const _fullHostMovie =
-      'https://api.kinopoisk.dev/v1.4/movie/search?X-API-KEY=KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
+  static const _fullHostMovie = 'Null';
   static const _imageUrl = 'http://www.omdbapi.com/?apikey=[yourkey]&';
   // kinopoisk Apikey[X-API-KEY]
   static const _apiKey = 'KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
@@ -26,7 +30,7 @@ class ApiClient {
   //       .then((v) => jsonDecode(v) as Map<String, dynamic>);
   // }
 
-  Future<String> searchMovie() async {
+  Future<List> searchMovie() async {
     final url = Uri.parse(_hostMovie);
     // final parameters = <String, dynamic>{
     //   'X-API-KEY': _apiKey,
@@ -37,9 +41,22 @@ class ApiClient {
     // request.write(jsonEncode(parameters));
     final response = await request.close();
     final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final sessionId = json['name'] as String;
-    print(sessionId);
-    return sessionId;
+    final docs = json['docs'] as List<dynamic>;
+    // final
+    print(docs);
+    return docs;
+  }
+
+  Future<PopularMovieResponse> popularMovie() async {
+    final url = Uri.parse(_hosmMoviePopular);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    // final docs = json['docs'] as List<dynamic>;
+    final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
   }
 }
 
