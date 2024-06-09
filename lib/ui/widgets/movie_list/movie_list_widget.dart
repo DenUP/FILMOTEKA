@@ -33,8 +33,9 @@ class MovieListWidget extends StatelessWidget {
             itemCount: model.movies.length,
             itemBuilder: (context, index) {
               final movies = model.movies[index];
-              final rating = movies.rating!.kp.toString();
+              final rating = movies.rating?.kp.toString();
               final genres = movies.genres[0].name.toString();
+              final poster = movies.poster?.previewUrl;
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -43,94 +44,100 @@ class MovieListWidget extends StatelessWidget {
                     Row(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(18),
-                        child: Image.network(movies.poster!.previewUrl!),
+                        child: poster != null
+                            ? Image.network(poster)
+                            : const SizedBox.shrink(),
                       ),
                       const SizedBox(
                         width: 15,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            movies.name,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star_border,
-                                color: colors.rating,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                rating,
-                                style: const TextStyle(
-                                    color: colors.rating,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.movie_creation_outlined,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                genres,
-                                style: const TextStyle(fontSize: 12),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_month_outlined,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                movies.year.toString(),
-                                style: const TextStyle(fontSize: 12),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.access_time,
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                '${movies.movieLength} минуты',
-                                style: const TextStyle(fontSize: 12),
-                              )
-                            ],
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              movies.name,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.star_border,
+                                  color: colors.rating,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  rating ?? '0',
+                                  style: const TextStyle(
+                                      color: colors.rating,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.movie_creation_outlined,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  genres,
+                                  style: const TextStyle(fontSize: 12),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_month_outlined,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  movies.year.toString(),
+                                  style: const TextStyle(fontSize: 12),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  '${movies.movieLength} минуты',
+                                  style: const TextStyle(fontSize: 12),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       )
                     ]),
                     Material(

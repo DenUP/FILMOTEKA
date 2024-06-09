@@ -4,7 +4,7 @@ part 'poster_url.g.dart';
 
 @JsonSerializable()
 class PosterUrl {
-  final String url;
+  final String? url;
   final String? previewUrl;
 
   PosterUrl({

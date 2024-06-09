@@ -1,5 +1,4 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
-import 'package:filmoteka/ui/widgets/main_screen/main_screen_model.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_widget.dart';
 import 'package:filmoteka/ui/widgets/news/news_widgets.dart';

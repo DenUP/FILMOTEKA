@@ -7,7 +7,7 @@ part of 'poster_url.dart';
 // **************************************************************************
 
 PosterUrl _$PosterUrlFromJson(Map<String, dynamic> json) => PosterUrl(
-      url: json['url'] as String,
+      url: json['url'] as String?,
       previewUrl: json['previewUrl'] as String?,
     );
 

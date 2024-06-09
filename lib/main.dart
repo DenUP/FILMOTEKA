@@ -1,4 +1,3 @@
-import 'package:filmoteka/domain/api_client/api_client.dart';
 import 'package:filmoteka/ui/widgets/app/my_app.dart';
 import 'package:filmoteka/ui/widgets/app/my_app_model.dart';
 import 'package:flutter/material.dart';

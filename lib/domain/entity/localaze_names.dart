@@ -6,7 +6,7 @@ part 'localaze_names.g.dart';
 class LocalazeNames {
   final String name;
   final String? language;
-  final String type;
+  final String? type;
 
   LocalazeNames({
     required this.name,

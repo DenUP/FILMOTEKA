@@ -18,7 +18,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       typeNumber: (json['typeNumber'] as num).toInt(),
       year: (json['year'] as num).toInt(),
       description: json['description'] as String,
-      shortDescription: json['shortDescription'] as String,
+      shortDescription: json['shortDescription'] as String?,
       status: json['status'],
       rating: json['rating'] == null
           ? null
@@ -30,7 +30,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       totalSeriesLength: json['totalSeriesLength'],
       seriesLength: json['seriesLength'],
       ratingMpaa: json['ratingMpaa'] as String?,
-      ageRating: (json['ageRating'] as num).toInt(),
+      ageRating: (json['ageRating'] as num?)?.toInt(),
       poster: json['poster'] == null
           ? null
           : PosterUrl.fromJson(json['poster'] as Map<String, dynamic>),

@@ -17,7 +17,7 @@ class Movie {
   final int typeNumber;
   final int year;
   final String description;
-  final String shortDescription;
+  final String? shortDescription;
   final dynamic status;
   final RatingMovie? rating;
   final RatingMovie? votes;
@@ -25,7 +25,7 @@ class Movie {
   final dynamic totalSeriesLength;
   final dynamic seriesLength;
   final String? ratingMpaa;
-  final int ageRating;
+  final int? ageRating;
   final PosterUrl? poster;
   final PosterUrl? backdrop;
   final List<Genres> genres;

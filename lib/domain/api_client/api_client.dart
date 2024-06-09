@@ -12,7 +12,7 @@ class ApiClient {
       'https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10';
   //hostMovie Popular
   static const _hosmMoviePopular =
-      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&type=movie&lists=top250';
+      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=200&type=movie&lists=top250';
   // img movie[kino] is not key
   static const _fullHostMovie = 'Null';
   static const _imageUrl = 'http://www.omdbapi.com/?apikey=[yourkey]&';

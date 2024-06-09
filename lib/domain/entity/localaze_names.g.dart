@@ -10,7 +10,7 @@ LocalazeNames _$LocalazeNamesFromJson(Map<String, dynamic> json) =>
     LocalazeNames(
       name: json['name'] as String,
       language: json['language'] as String?,
-      type: json['type'] as String,
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$LocalazeNamesToJson(LocalazeNames instance) =>
