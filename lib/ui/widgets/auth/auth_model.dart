@@ -39,7 +39,7 @@ class AuthModel extends ChangeNotifier {
       );
 
       final Session? session = res.session;
-      final User? user = res.user;
+      // final User? user = res.user;
       sessionId = session?.refreshToken;
     } catch (e) {
       _errorMessage = 'Не правильный логин или пароль';

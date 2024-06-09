@@ -3,19 +3,20 @@ import 'dart:io';
 
 class ApiClient {
   final _client = HttpClient();
-  // supabase
-  static const _host = 'https://hocmobhnhmeqwrcltwdu.supabase.co/r';
+  // kinopoisk
+  static const _host = 'https://api.kinopoisk.dev/v1.4/';
   // supabase auth
-  static const _hostAuth =
-      'https://hocmobhnhmeqwrcltwdu.supabase.co/auth/v1/token?grant_type=password';
+  static const _hostMovie =
+      'https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10';
   // img movie[kino] is not key
+  static const _fullHostMovie =
+      'https://api.kinopoisk.dev/v1.4/movie/search?X-API-KEY=KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
   static const _imageUrl = 'http://www.omdbapi.com/?apikey=[yourkey]&';
-  // supabase key
-  static const _apiKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvY21vYmhuaG1lcXdyY2x0d2R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcxNTA5MTYsImV4cCI6MjAzMjcyNjkxNn0.b5C6PVC2t1Sax4qI5-xY1nTxvSjLciYEZHxTpTHKvQ0';
+  // kinopoisk Apikey[X-API-KEY]
+  static const _apiKey = 'KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
 
   // Future<void> makeToken() async {
-  //   final url = Uri.parse(_hostAuth);
+  //   final url = Uri.parse(_fullHostMovie);
   //   final request = await _client.getUrl(url);
   //   final response = await request.close();
   //   final json = await response
@@ -25,24 +26,21 @@ class ApiClient {
   //       .then((v) => jsonDecode(v) as Map<String, dynamic>);
   // }
 
-  // Future<String> makeSession({
-  //   required String email,
-  //   required String password,
-  // }) async {
-
-  //   final url = Uri.parse(_hostAuth);
-  //   final parameters = <String, dynamic>{
-  //     email: email,
-  //     password: password,
-  //   };
-  //   final request = await _client.postUrl(url);
-  //   // request.headers.contentLength;
-  //   request.headers.add('apikey', _apiKey);
-  //   request.write(jsonEncode(parameters));
-  //   final response = await request.close();
-  //   final json = (await response.JsonDecode()) as Map<String, dynamic>;
-  //   final sessionId = json['refresh_token'] as String;
-  //   return sessionId;
+  Future<String> searchMovie() async {
+    final url = Uri.parse(_hostMovie);
+    // final parameters = <String, dynamic>{
+    //   'X-API-KEY': _apiKey,
+    // };
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    // request.write(jsonEncode(parameters));
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    final sessionId = json['name'] as String;
+    print(sessionId);
+    return sessionId;
+  }
 }
 
 extension HttpClientResponseJsonDecode on HttpClientResponse {

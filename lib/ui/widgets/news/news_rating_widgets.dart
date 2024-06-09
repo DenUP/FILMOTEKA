@@ -1,6 +1,8 @@
 import 'package:filmoteka/Theme/color.dart';
 import 'package:flutter/material.dart';
 
+// Популярные фильмы
+
 class NewsRatingWidgets extends StatelessWidget {
   const NewsRatingWidgets({super.key});
 

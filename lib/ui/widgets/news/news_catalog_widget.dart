@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Топ 5 фильмов
+
 class NewsCatalogWidget extends StatelessWidget {
   const NewsCatalogWidget({super.key});
 
