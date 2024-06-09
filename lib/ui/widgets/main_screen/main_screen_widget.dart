@@ -1,5 +1,6 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_model.dart';
+import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_widget.dart';
 import 'package:filmoteka/ui/widgets/news/news_widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
+  final movieListModel = MovieListModel();
   int _selectedTab = 0;
 
   void onSelectTab(int index) {
@@ -22,16 +24,26 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   }
 
   @override
+  void initState() {
+    movieListModel.loadMovies();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<MainScreenModel>(context);
-    print('Пример модели = ${model}');
+    // final model = NotifierProvider.read<MainScreenModel>(context);
+    // final movieModel = NotifierProvider.watch<MovieListModel>(context);
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedTab,
-        children: const [
-          NewsWidgets(),
-          MovieListWidget(),
-          Text('Сериалы'),
+        children: [
+          const NewsWidgets(),
+          NotifierProvider(
+            model: movieListModel,
+            child: const MovieListWidget(),
+          ),
+          const Text('Сериалы'),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

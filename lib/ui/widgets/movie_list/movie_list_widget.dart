@@ -1,112 +1,16 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
-import 'package:filmoteka/ui/navigation/main_navigation.dart';
+import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
 import 'package:flutter/material.dart';
 
-class Movie {
-  final int id;
-  final String name;
-  final String image;
-  final String rating;
-  final String category;
-  final String data;
-  final String duration;
-
-  Movie(
-      {required this.id,
-      required this.image,
-      required this.name,
-      required this.rating,
-      required this.category,
-      required this.data,
-      required this.duration});
-}
-
-class MovieListWidget extends StatefulWidget {
+class MovieListWidget extends StatelessWidget {
   const MovieListWidget({super.key});
 
   @override
-  State<MovieListWidget> createState() => _MovieListWidgetState();
-}
-
-class _MovieListWidgetState extends State<MovieListWidget> {
-  final _movies = [
-    Movie(
-        id: 1,
-        image: 'assets/post/homen3.webp',
-        name: 'Spider',
-        rating: '9.5',
-        category: 'Экшен',
-        data: '2019',
-        duration: '139'),
-    Movie(
-        id: 2,
-        image: 'assets/post/onepluseone.webp',
-        name: '1+1',
-        category: 'Комедия',
-        rating: '8.8',
-        data: '2011',
-        duration: '112'),
-    Movie(
-        id: 3,
-        image: 'assets/post/poimaimeny.webp',
-        name: 'Поймай меня, если сможешь',
-        category: 'Криминал',
-        rating: '8.5',
-        data: '2002',
-        duration: '141'),
-    Movie(
-        id: 4,
-        image: 'assets/post/yiollstreet.webp',
-        name: 'Волк с Уолл-стрит',
-        category: 'Комедия',
-        rating: '8.0',
-        data: '2013',
-        duration: '180'),
-    Movie(
-        id: 5,
-        image: 'assets/post/xatikoo.webp',
-        name: 'Хатико: Самый верный друг',
-        category: 'Драма',
-        rating: '8.4',
-        data: '2008',
-        duration: '89'),
-  ];
-
-  var _moviesFiltered = <Movie>[];
-  final _searchControler = TextEditingController();
-
-  void _searchMovies() {
-    final search = _searchControler.text;
-    if (search.trim().isNotEmpty) {
-      _moviesFiltered = _movies.where((Movie movie) {
-        return movie.name.toLowerCase().contains(search.toLowerCase());
-      }).toList();
-
-      setState(() {});
-    } else {
-      _moviesFiltered = _movies;
-      setState(() {});
-    }
-  }
-
-  void _onMovieTap(int index) {
-    final id = _movies[index].id;
-    Navigator.of(context).pushNamed(
-      MainNavigationRouteName.movieDetails,
-      arguments: id,
-    );
-  }
-
-  @override
-  void initState() {
-    _moviesFiltered = _movies;
-    _searchControler.addListener(_searchMovies);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieListModel>(context);
+    if (model == null) return const SizedBox.shrink();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -126,9 +30,11 @@ class _MovieListWidgetState extends State<MovieListWidget> {
             padding: const EdgeInsets.only(top: 82),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             itemExtent: 170,
-            itemCount: _moviesFiltered.length,
+            itemCount: model.movies.length,
             itemBuilder: (context, index) {
-              final movies = _moviesFiltered[index];
+              final movies = model.movies[index];
+              final rating = movies.rating!.kp.toString();
+              final genres = movies.genres[0].name.toString();
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -137,9 +43,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                     Row(children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(18),
-                        child: Image.asset(
-                          movies.image,
-                        ),
+                        child: Image.network(movies.poster!.previewUrl!),
                       ),
                       const SizedBox(
                         width: 15,
@@ -167,7 +71,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                                 width: 4,
                               ),
                               Text(
-                                movies.rating,
+                                rating,
                                 style: const TextStyle(
                                     color: colors.rating,
                                     fontSize: 15,
@@ -187,7 +91,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                                 width: 4,
                               ),
                               Text(
-                                movies.category,
+                                genres,
                                 style: const TextStyle(fontSize: 12),
                               )
                             ],
@@ -204,7 +108,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                                 width: 4,
                               ),
                               Text(
-                                movies.data,
+                                movies.year.toString(),
                                 style: const TextStyle(fontSize: 12),
                               )
                             ],
@@ -221,7 +125,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                                 width: 4,
                               ),
                               Text(
-                                '${movies.duration} minutes',
+                                '${movies.movieLength} минуты',
                                 style: const TextStyle(fontSize: 12),
                               )
                             ],
@@ -232,7 +136,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => _onMovieTap(index),
+                        onTap: () => model.onMovieTap(context, index),
                         borderRadius: BorderRadius.circular(18),
                       ),
                     )
@@ -241,11 +145,10 @@ class _MovieListWidgetState extends State<MovieListWidget> {
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: TextField(
-              controller: _searchControler,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Поиск',
               ),
             ),
