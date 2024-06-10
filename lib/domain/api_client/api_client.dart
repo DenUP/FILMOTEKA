@@ -8,11 +8,19 @@ class ApiClient {
   // kinopoisk
   static const _host = 'https://api.kinopoisk.dev/v1.4/';
   // hostmMoveSearch
-  static const _hostMovie =
+  static const _hostMovieSearch =
       'https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10';
   //hostMovie Popular
   static const _hosmMoviePopular =
       'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=200&type=movie&lists=top250';
+// other Movie
+  static const _hostMovie =
+      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=movie&rating.kp=6-10';
+
+  //host Serial Popular
+  static const _hostSerialPopular =
+      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=tv-series&lists=series-top250';
+
   // img movie[kino] is not key
   static const _fullHostMovie = 'Null';
   static const _imageUrl = 'http://www.omdbapi.com/?apikey=[yourkey]&';
@@ -47,6 +55,7 @@ class ApiClient {
     return docs;
   }
 
+// Популярные фильмы
   Future<PopularMovieResponse> popularMovie() async {
     final url = Uri.parse(_hosmMoviePopular);
     final request = await _client.getUrl(url);
@@ -55,6 +64,21 @@ class ApiClient {
     final response = await request.close();
     final json = (await response.JsonDecode()) as Map<String, dynamic>;
     // final docs = json['docs'] as List<dynamic>;
+    final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
+  }
+
+  // Остальные фильмы
+  Future<PopularMovieResponse> otherMovie(int page) async {
+    final pathUrl =
+        'https://api.kinopoisk.dev/v1.4/movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10';
+
+    final url = Uri.parse(pathUrl);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
     final responseMovie = PopularMovieResponse.fromJson(json);
     return responseMovie;
   }

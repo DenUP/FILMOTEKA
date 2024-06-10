@@ -1,4 +1,5 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
+import 'package:filmoteka/Library/modif_string.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
@@ -32,10 +33,11 @@ class MovieListWidget extends StatelessWidget {
             itemExtent: 170,
             itemCount: model.movies.length,
             itemBuilder: (context, index) {
+              model.showedMovieAtIndex(index);
               final movies = model.movies[index];
               final rating = movies.rating?.kp.toString();
               final genres = movies.genres[0].name.toString();
-              final poster = movies.poster?.previewUrl;
+              final poster = movies.poster?.previewUrl ?? movies.poster?.url;
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -97,7 +99,7 @@ class MovieListWidget extends StatelessWidget {
                                   width: 4,
                                 ),
                                 Text(
-                                  genres,
+                                  genres.capitalize(),
                                   style: const TextStyle(fontSize: 12),
                                 )
                               ],

@@ -16,12 +16,12 @@ class Movie {
   final String type;
   final int typeNumber;
   final int year;
-  final String description;
+  final String? description;
   final String? shortDescription;
   final dynamic status;
   final RatingMovie? rating;
   final RatingMovie? votes;
-  final int movieLength;
+  final int? movieLength;
   final dynamic totalSeriesLength;
   final dynamic seriesLength;
   final String? ratingMpaa;
@@ -29,7 +29,7 @@ class Movie {
   final PosterUrl? poster;
   final PosterUrl? backdrop;
   final List<Genres> genres;
-  final List<Genres> countries;
+  final List<Genres>? countries;
   final int? top10;
   final int? top250;
   final bool isSeries;

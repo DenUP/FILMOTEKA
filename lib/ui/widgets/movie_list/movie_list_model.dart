@@ -5,13 +5,36 @@ import 'package:flutter/material.dart';
 
 class MovieListModel extends ChangeNotifier {
   final _apiClient = ApiClient();
+  late int _currentPage;
+  late int _totalPage;
+  var _isLoadingInProgress = false;
   final _movies = <Movie>[];
   List<Movie> get movies => List.unmodifiable(_movies);
 
+// Загрузка популярные фильмов
+// После уже остальные фильмы полгружаются
   Future<void> loadMovies() async {
-    final moviesResponse = await _apiClient.popularMovie();
-    _movies.addAll(moviesResponse.movies);
-    notifyListeners();
+    if (_movies.isEmpty) {
+      final moviesPopularResponse = await _apiClient.popularMovie();
+      _movies.addAll(moviesPopularResponse.movies);
+      _currentPage = 0;
+      _totalPage = 1;
+      notifyListeners();
+      return;
+    }
+    if (_isLoadingInProgress || _currentPage >= _totalPage) return;
+    _isLoadingInProgress = true;
+    final nextPage = _currentPage + 1;
+    try {
+      final moviesOtherResponse = await _apiClient.otherMovie(nextPage);
+      _currentPage = moviesOtherResponse.page;
+      _totalPage = moviesOtherResponse.pages;
+      _movies.addAll(moviesOtherResponse.movies);
+      _isLoadingInProgress = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoadingInProgress = false;
+    }
   }
 
   void onMovieTap(BuildContext context, int index) {
@@ -20,5 +43,10 @@ class MovieListModel extends ChangeNotifier {
       MainNavigationRouteName.movieDetails,
       arguments: id,
     );
+  }
+
+  void showedMovieAtIndex(int index) {
+    if (index < _movies.length - 3) return;
+    loadMovies();
   }
 }

@@ -17,7 +17,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       type: json['type'] as String,
       typeNumber: (json['typeNumber'] as num).toInt(),
       year: (json['year'] as num).toInt(),
-      description: json['description'] as String,
+      description: json['description'] as String?,
       shortDescription: json['shortDescription'] as String?,
       status: json['status'],
       rating: json['rating'] == null
@@ -26,7 +26,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       votes: json['votes'] == null
           ? null
           : RatingMovie.fromJson(json['votes'] as Map<String, dynamic>),
-      movieLength: (json['movieLength'] as num).toInt(),
+      movieLength: (json['movieLength'] as num?)?.toInt(),
       totalSeriesLength: json['totalSeriesLength'],
       seriesLength: json['seriesLength'],
       ratingMpaa: json['ratingMpaa'] as String?,
@@ -40,8 +40,8 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       genres: (json['genres'] as List<dynamic>)
           .map((e) => Genres.fromJson(e as Map<String, dynamic>))
           .toList(),
-      countries: (json['countries'] as List<dynamic>)
-          .map((e) => Genres.fromJson(e as Map<String, dynamic>))
+      countries: (json['countries'] as List<dynamic>?)
+          ?.map((e) => Genres.fromJson(e as Map<String, dynamic>))
           .toList(),
       top10: (json['top10'] as num?)?.toInt(),
       top250: (json['top250'] as num?)?.toInt(),
