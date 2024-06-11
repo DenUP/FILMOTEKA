@@ -1,4 +1,6 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsInfo extends StatelessWidget {
@@ -28,27 +30,32 @@ class _TopPosterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final urlToImage = model?.movieDetails?.backdrop?.url == null
+        ? Image.asset('assets/post/homen.png')
+        : FadeInImage.assetNetwork(
+            fadeInCurve: Curves.bounceIn,
+            placeholder: 'assets/post/shapkaTwo.jpg',
+            image: model?.movieDetails?.backdrop?.url as String,
+            fit: BoxFit.fill,
+          );
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20)),
-          child: Image.asset(
-            'assets/post/shapkaTwo.jpg',
-            fit: BoxFit.fill,
-          ),
-        ),
+            borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20)),
+            child: urlToImage),
         Positioned(
           right: 12,
           bottom: 10,
           child: Container(
-            width: 70,
+            width: 90,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: colors.bcgRating),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Row(
                 children: [
                   Icon(
@@ -59,7 +66,7 @@ class _TopPosterWidget extends StatelessWidget {
                     width: 4,
                   ),
                   Text(
-                    '9.5',
+                    model?.movieDetails?.rating?.kp.toString() ?? "0.0",
                     style: TextStyle(
                         color: colors.rating,
                         fontSize: 15,
@@ -80,6 +87,8 @@ class _MovieNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+
     return Container(
       margin: const EdgeInsets.only(left: 30, top: 170, bottom: 16),
       child: Row(
@@ -89,19 +98,19 @@ class _MovieNameWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/post/homen3.webp',
+                child: Image.network(
+                  model?.movieDetails?.poster?.url ?? '',
                   width: 110,
                 ),
               ),
             ],
           ),
-          const Expanded(
+          Expanded(
               child: Padding(
-            padding: EdgeInsets.only(left: 12, top: 50),
+            padding: const EdgeInsets.only(left: 12, top: 50),
             child: Text(
-              'Spiderman No Way Home',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+              model?.movieDetails?.name ?? 'Имя',
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
               textAlign: TextAlign.start,
             ),
           ))

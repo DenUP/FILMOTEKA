@@ -1,13 +1,13 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_cast_widgets.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_info_widgets.dart';
+import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsWidgets extends StatefulWidget {
-  final int movieId;
   const MovieDetailsWidgets({
     super.key,
-    required this.movieId,
   });
 
   @override
@@ -16,7 +16,18 @@ class MovieDetailsWidgets extends StatefulWidget {
 
 class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
   @override
+  // void didChangeDependencies() {
+  //   NotifierProvider.read<MovieDetailsModel>(context)?.loadDetails();
+  //   super.didChangeDependencies();
+  // }
+  void initState() {
+    NotifierProvider.read<MovieDetailsModel>(context)?.loadDetails();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

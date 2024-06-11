@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:filmoteka/domain/entity/movie_details.dart';
+import 'package:filmoteka/domain/entity/movies.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 
 class ApiClient {
@@ -45,6 +47,20 @@ class ApiClient {
     final response = await request.close();
     final json = (await response.JsonDecode()) as Map<String, dynamic>;
     final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
+  }
+
+  // Описание фильма
+  Future<MovieDetails> movieDetails(int id) async {
+    final pathUrl = 'https://api.kinopoisk.dev/v1.4/movie/$id';
+
+    final url = Uri.parse(pathUrl);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    final responseMovie = MovieDetails.fromJson(json);
     return responseMovie;
   }
 

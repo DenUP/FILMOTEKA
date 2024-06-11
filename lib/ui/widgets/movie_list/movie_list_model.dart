@@ -56,12 +56,7 @@ class MovieListModel extends ChangeNotifier {
     if (text == null) {
       return await _apiClient.otherMovie(nextPage);
     } else {
-      try {
-        return await _apiClient.searchQuearyMovie(nextPage, text);
-      } catch (e) {
-        print('sssssssssssssss');
-        return await _apiClient.otherMovie(nextPage);
-      }
+      return await _apiClient.searchQuearyMovie(nextPage, text);
     }
   }
 
