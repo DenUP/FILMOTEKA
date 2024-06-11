@@ -7,53 +7,18 @@ class ApiClient {
   final _client = HttpClient();
   // kinopoisk
   static const _host = 'https://api.kinopoisk.dev/v1.4/';
-  // hostmMoveSearch
-  static const _hostMovieSearch =
-      'https://api.kinopoisk.dev/v1.4/movie/search?page=1&limit=10';
+
   //hostMovie Popular
   static const _hosmMoviePopular =
       'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=200&type=movie&lists=top250';
 // other Movie
-  static const _hostMovie =
-      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=movie&rating.kp=6-10';
 
   //host Serial Popular
   static const _hostSerialPopular =
       'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=tv-series&lists=series-top250';
 
-  // img movie[kino] is not key
-  static const _fullHostMovie = 'Null';
-  static const _imageUrl = 'http://www.omdbapi.com/?apikey=[yourkey]&';
   // kinopoisk Apikey[X-API-KEY]
   static const _apiKey = 'KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
-
-  // Future<void> makeToken() async {
-  //   final url = Uri.parse(_fullHostMovie);
-  //   final request = await _client.getUrl(url);
-  //   final response = await request.close();
-  //   final json = await response
-  //       .transform(utf8.decoder)
-  //       .toList()
-  //       .then((value) => value.join())
-  //       .then((v) => jsonDecode(v) as Map<String, dynamic>);
-  // }
-
-  Future<List> searchMovie() async {
-    final url = Uri.parse(_hostMovie);
-    // final parameters = <String, dynamic>{
-    //   'X-API-KEY': _apiKey,
-    // };
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    // request.write(jsonEncode(parameters));
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final docs = json['docs'] as List<dynamic>;
-    // final
-    print(docs);
-    return docs;
-  }
 
 // Популярные фильмы
   Future<PopularMovieResponse> popularMovie() async {
@@ -71,9 +36,26 @@ class ApiClient {
   // Остальные фильмы
   Future<PopularMovieResponse> otherMovie(int page) async {
     final pathUrl =
-        'https://api.kinopoisk.dev/v1.4/movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10';
+        '${_host}movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10';
 
     final url = Uri.parse(pathUrl);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
+  }
+
+  // Поиск фильмов TextField
+  Future<PopularMovieResponse> searchQuearyMovie(int page, String query) async {
+    // Декодировение строки в запрос
+    var decoded = Uri.encodeComponent(query);
+    final searchMovie =
+        '${_host}movie/search?page=${page.toString()}&limit=50&query=$decoded';
+
+    final url = Uri.parse(searchMovie);
     final request = await _client.getUrl(url);
     request.headers.contentType;
     request.headers.add('X-API-KEY', _apiKey);

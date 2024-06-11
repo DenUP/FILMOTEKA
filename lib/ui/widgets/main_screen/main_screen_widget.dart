@@ -22,10 +22,16 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
+  // @override
+  // void initState() {
+  //   movieListModel.loadNextPage();
+  //   super.initState();
+  // }
   @override
-  void initState() {
-    movieListModel.loadMovies();
-    super.initState();
+  void didChangeDependencies() {
+    // movieListModel.loadNextPage();
+    movieListModel.resetMovie();
+    super.didChangeDependencies();
   }
 
   @override
