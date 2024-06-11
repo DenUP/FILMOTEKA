@@ -29,23 +29,20 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   // }
   @override
   void didChangeDependencies() {
-    // movieListModel.loadNextPage();
     movieListModel.resetMovie();
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final model = NotifierProvider.read<MainScreenModel>(context);
-    // final movieModel = NotifierProvider.watch<MovieListModel>(context);
-
     return Scaffold(
       body: IndexedStack(
         index: _selectedTab,
         children: [
           const NewsWidgets(),
           NotifierProvider(
-            model: movieListModel,
+            create: () => movieListModel,
+            isManagingModel: false,
             child: const MovieListWidget(),
           ),
           const Text('Сериалы'),
