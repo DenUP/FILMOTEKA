@@ -186,15 +186,13 @@ class _SummeryWidget extends StatelessWidget {
             // const SizedBox(
             //   width: 5,
             // ),
-            Expanded(
-              child: Text(
-                maxLines: 1,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                year,
-                style: const TextStyle(
-                  color: colors.greyInfo,
-                ),
+            Text(
+              maxLines: 1,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              year,
+              style: const TextStyle(
+                color: colors.greyInfo,
               ),
             ),
             // const SizedBox(
@@ -211,15 +209,13 @@ class _SummeryWidget extends StatelessWidget {
             // const SizedBox(
             //   width: 5,
             // ),
-            Expanded(
-              child: Text(
-                softWrap: true,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                '$minutes Минут',
-                style: const TextStyle(
-                  color: colors.greyInfo,
-                ),
+            Text(
+              softWrap: true,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              '$minutes Минут',
+              style: const TextStyle(
+                color: colors.greyInfo,
               ),
             ),
             // const SizedBox(
@@ -236,15 +232,13 @@ class _SummeryWidget extends StatelessWidget {
             // const SizedBox(
             //   width: 5,
             // ),
-            Expanded(
-              child: Text(
-                maxLines: 1,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                genres,
-                style: const TextStyle(
-                  color: colors.greyInfo,
-                ),
+            Text(
+              maxLines: 1,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              genres,
+              style: const TextStyle(
+                color: colors.greyInfo,
               ),
             ),
             // const SizedBox(
