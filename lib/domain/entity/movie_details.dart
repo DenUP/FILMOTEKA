@@ -13,13 +13,13 @@ class MovieDetails {
   @JsonKey(name: "alternativeName")
   String? alternativeName;
   @JsonKey(name: "enName")
-  dynamic enName;
+  dynamic? enName;
   @JsonKey(name: "names")
   List<Name>? names;
   @JsonKey(name: "type")
-  String type;
+  String? type;
   @JsonKey(name: "typeNumber")
-  int typeNumber;
+  int? typeNumber;
   @JsonKey(name: "year")
   int? year;
   @JsonKey(name: "description")
@@ -29,7 +29,7 @@ class MovieDetails {
   @JsonKey(name: "slogan")
   String? slogan;
   @JsonKey(name: "status")
-  dynamic status;
+  dynamic? status;
   @JsonKey(name: "rating")
   Rating? rating;
   @JsonKey(name: "votes")
@@ -37,9 +37,9 @@ class MovieDetails {
   @JsonKey(name: "movieLength")
   int? movieLength;
   @JsonKey(name: "totalSeriesLength")
-  dynamic totalSeriesLength;
+  dynamic? totalSeriesLength;
   @JsonKey(name: "seriesLength")
-  dynamic seriesLength;
+  dynamic? seriesLength;
   @JsonKey(name: "ratingMpaa")
   String? ratingMpaa;
   @JsonKey(name: "ageRating")
@@ -61,7 +61,7 @@ class MovieDetails {
   @JsonKey(name: "watchability")
   Watchability? watchability;
   @JsonKey(name: "top10")
-  dynamic top10;
+  dynamic? top10;
   @JsonKey(name: "top250")
   int? top250;
   @JsonKey(name: "isSeries")
@@ -73,21 +73,21 @@ class MovieDetails {
   @JsonKey(name: "lists")
   List<String>? lists;
   @JsonKey(name: "networks")
-  dynamic networks;
+  dynamic? networks;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
   DateTime? updatedAt;
 
   MovieDetails({
-    required this.id,
-    required this.externalId,
+    this.id,
+    this.externalId,
     this.name,
     this.alternativeName,
     this.enName,
     this.names,
-    required this.type,
-    required this.typeNumber,
+    this.type,
+    this.typeNumber,
     this.year,
     this.description,
     this.shortDescription,

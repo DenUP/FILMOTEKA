@@ -17,8 +17,8 @@ MovieDetails _$MovieDetailsFromJson(Map<String, dynamic> json) => MovieDetails(
       names: (json['names'] as List<dynamic>?)
           ?.map((e) => Name.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
-      typeNumber: (json['typeNumber'] as num).toInt(),
+      type: json['type'] as String?,
+      typeNumber: (json['typeNumber'] as num?)?.toInt(),
       year: (json['year'] as num?)?.toInt(),
       description: json['description'] as String?,
       shortDescription: json['shortDescription'] as String?,
