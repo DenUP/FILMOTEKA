@@ -31,12 +31,12 @@ class MovieListWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 82),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             itemExtent: 170,
-            itemCount: model.movies.length,
+            itemCount: model.movies.length ?? 0,
             itemBuilder: (context, index) {
               model.showedMovieAtIndex(index);
               final movies = model.movies[index];
-              final rating = movies.rating?.kp.toString();
-              final genres = movies.genres[0].name.toString();
+              final rating = movies.rating?.kp.toString() ?? '0';
+              final genres = movies.genres[0].name.toString() ?? 'Жанр';
               final poster = movies.poster?.previewUrl ?? movies.poster?.url;
               return Padding(
                 padding:
