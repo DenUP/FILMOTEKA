@@ -72,7 +72,7 @@ class MovieListModel extends ChangeNotifier {
   Future<void> serachMovie(String text) async {
     // отменты предыдущих запросов (чтобы отправлялся только один запрос в сеть)
     searchDeboubce?.cancel();
-    searchDeboubce = Timer(const Duration(seconds: 1), () async {
+    searchDeboubce = Timer(const Duration(seconds: 3), () async {
       final searchQuery = text.isNotEmpty ? text : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
