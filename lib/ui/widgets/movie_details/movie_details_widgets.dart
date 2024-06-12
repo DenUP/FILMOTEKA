@@ -28,6 +28,15 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final movieDetails = model?.movieDetails;
+    if (movieDetails == null) {
+      return const Scaffold(
+        body: Center(
+            child: CircularProgressIndicator(
+          color: Colors.white,
+        )),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

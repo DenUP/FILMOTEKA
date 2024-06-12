@@ -1,4 +1,5 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
+import 'package:filmoteka/Library/modif_string.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class MovieDetailsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final model = NotifierProvider.watch<MovieDetailsModel>(context);
+
     return Column(
       children: [
         Stack(
@@ -31,26 +34,39 @@ class _TopPosterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    final urlToImage = model?.movieDetails?.backdrop?.url == null
-        ? Image.asset('assets/post/homen.png')
-        : FadeInImage.assetNetwork(
-            fadeInCurve: Curves.bounceIn,
-            placeholder: 'assets/post/shapkaTwo.jpg',
-            image: model?.movieDetails?.backdrop?.url as String,
-            fit: BoxFit.fill,
+    final urlToImageBackground = model?.movieDetails?.backdrop?.url != null
+        ? Image.network(model?.movieDetails?.backdrop?.url ?? '/',
+            fit: BoxFit.fill)
+        // : FadeInImage.assetNetwork(
+        //     fadeInCurve: Curves.bounceIn,
+        //     placeholder: '',
+        //     image: model?.movieDetails?.backdrop?.url ?? '',
+        //     fit: BoxFit.fill,
+        //   );
+        : Container(
+            width: double.infinity,
+            height: 200,
+            color: colors.mainTitle,
+            child: Text(
+              textAlign: TextAlign.center,
+              model?.movieDetails?.name.toString() ?? '',
+              style:
+                  const TextStyle(color: colors.mainBackground, fontSize: 25),
+            ),
           );
+
     return Stack(
       children: [
         ClipRRect(
             borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20)),
-            child: urlToImage),
+            child: urlToImageBackground),
         Positioned(
           right: 12,
           bottom: 10,
           child: Container(
-            width: 90,
+            width: 88,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: colors.bcgRating),
@@ -58,19 +74,24 @@ class _TopPosterWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star_border,
                     color: colors.rating,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
-                  Text(
-                    model?.movieDetails?.rating?.kp.toString() ?? "0.0",
-                    style: TextStyle(
-                        color: colors.rating,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Text(
+                      maxLines: 1,
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      model?.movieDetails?.rating?.kp.toString() ?? "0.0",
+                      style: const TextStyle(
+                          color: colors.rating,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),
@@ -88,7 +109,28 @@ class _MovieNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-
+    final urlMainImagesMovie = model?.movieDetails?.poster?.url != null
+        ? Image.network(
+            model?.movieDetails?.poster?.url ?? '',
+            width: 110,
+          )
+        // : FadeInImage.assetNetwork(
+        //     fadeInCurve: Curves.bounceIn,
+        //     placeholder: '',
+        //     image: model?.movieDetails?.backdrop?.url ?? '',
+        //     fit: BoxFit.fill,
+        //   );
+        : Container(
+            width: 150,
+            height: 150,
+            color: colors.mainTitle,
+            child: Text(
+              textAlign: TextAlign.center,
+              model?.movieDetails?.name.toString() ?? '',
+              style:
+                  const TextStyle(color: colors.mainBackground, fontSize: 25),
+            ),
+          );
     return Container(
       margin: const EdgeInsets.only(left: 30, top: 170, bottom: 16),
       child: Row(
@@ -97,12 +139,8 @@ class _MovieNameWidget extends StatelessWidget {
             // alignment: Alignment.topLeft,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  model?.movieDetails?.poster?.url ?? '',
-                  width: 110,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(16),
+                  child: urlMainImagesMovie),
             ],
           ),
           Expanded(
@@ -125,64 +163,88 @@ class _SummeryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final minutes = model?.movieDetails?.movieLength != null
+        ? model?.movieDetails?.movieLength.toString()
+        : '0';
+    final genres = model?.movieDetails!.genres?[0].name?.capitalize() ?? '';
+    final year = model?.movieDetails?.year != null
+        ? model!.movieDetails!.year.toString()
+        : '';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       child: IntrinsicHeight(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
+            const Icon(
               Icons.calendar_today_outlined,
               color: colors.greyInfo,
             ),
             // const SizedBox(
             //   width: 5,
             // ),
-            Text(
-              '2021',
-              style: TextStyle(
-                color: colors.greyInfo,
+            Expanded(
+              child: Text(
+                maxLines: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                year,
+                style: const TextStyle(
+                  color: colors.greyInfo,
+                ),
               ),
             ),
             // const SizedBox(
             //   width: 10,
             // ),
-            VerticalDivider(
+            const VerticalDivider(
               thickness: 1,
               color: colors.greyInfo,
             ),
-            Icon(
+            const Icon(
               Icons.watch_later_outlined,
               color: colors.greyInfo,
             ),
             // const SizedBox(
             //   width: 5,
             // ),
-            Text(
-              '148 Minutes',
-              style: TextStyle(
-                color: colors.greyInfo,
+            Expanded(
+              child: Text(
+                softWrap: true,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                '$minutes Минут',
+                style: const TextStyle(
+                  color: colors.greyInfo,
+                ),
               ),
             ),
             // const SizedBox(
             //   width: 10,
             // ),
-            VerticalDivider(
+            const VerticalDivider(
               thickness: 1,
               color: colors.greyInfo,
             ),
-            Icon(
+            const Icon(
               Icons.movie_creation_outlined,
               color: colors.greyInfo,
             ),
             // const SizedBox(
             //   width: 5,
             // ),
-            Text(
-              'Action',
-              style: TextStyle(
-                color: colors.greyInfo,
+            Expanded(
+              child: Text(
+                maxLines: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                genres,
+                style: const TextStyle(
+                  color: colors.greyInfo,
+                ),
               ),
             ),
             // const SizedBox(
@@ -200,24 +262,26 @@ class _AboutMovie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
     return Container(
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(left: 30, top: 10),
-      child: const Column(
+      child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             textAlign: TextAlign.start,
             // textDirection: TextDirection.ltr,
-            'About Movie',
+            'О фильме: ',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text(
-              'From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences.')
+          Text(model?.movieDetails?.description ??
+              model?.movieDetails?.shortDescription ??
+              '')
         ],
       ),
     );
