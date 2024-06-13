@@ -69,7 +69,7 @@ class ApiClient {
     // Декодировение строки в запрос
     var decoded = Uri.encodeComponent(query);
     final searchMovie =
-        '${_host}movie/search?page=${page.toString()}&limit=50&query=$decoded';
+        '${_host}movie/search?page=${page.toString()}&limit=50&query=$decoded&notNullFields=movieLength&!=null=poster.url&notNullFields=genres.name&rating.kp=2-10';
 
     final url = Uri.parse(searchMovie);
     final request = await _client.getUrl(url);

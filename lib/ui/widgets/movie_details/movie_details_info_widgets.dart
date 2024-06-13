@@ -1,6 +1,7 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Library/modif_string.dart';
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
 import 'package:flutter/material.dart';
 
@@ -131,6 +132,24 @@ class _MovieNameWidget extends StatelessWidget {
                   const TextStyle(color: colors.mainBackground, fontSize: 25),
             ),
           );
+    final urlTrailer = model?.movieDetails?.videos?.trailers![0].url.toString();
+    final trailer = model?.movieDetails?.videos?.trailers?[0].url != null
+        ? ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(MainNavigationRouteName.trailer,
+                  arguments: urlTrailer as String);
+            },
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.play_arrow_outlined),
+                Text('Посмотреть трейлер'),
+              ],
+            ),
+          )
+        : const SizedBox.shrink();
+
     return Container(
       margin: const EdgeInsets.only(left: 30, top: 170, bottom: 16),
       child: Row(
@@ -145,13 +164,25 @@ class _MovieNameWidget extends StatelessWidget {
           ),
           Expanded(
               child: Padding(
-            padding: const EdgeInsets.only(left: 12, top: 50),
-            child: Text(
-              model?.movieDetails?.name ?? 'Имя',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-              textAlign: TextAlign.start,
+            padding: const EdgeInsets.only(left: 12, top: 80),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model?.movieDetails?.name ?? 'Имя',
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.w800),
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                // Трейлер
+                trailer
+              ],
             ),
-          ))
+          )),
         ],
       ),
     );
