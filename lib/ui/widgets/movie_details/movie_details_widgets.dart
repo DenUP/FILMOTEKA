@@ -15,6 +15,8 @@ class MovieDetailsWidgets extends StatefulWidget {
 }
 
 class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
+  var iconTrue = false;
+
   @override
   // void didChangeDependencies() {
   //   NotifierProvider.read<MovieDetailsModel>(context)?.loadDetails();
@@ -41,8 +43,15 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.favorite_border_outlined),
-            onPressed: () {},
+            icon: iconTrue == true
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border_outlined),
+            onPressed: () {
+              setState(() {
+                iconTrue == false ? iconTrue = true : iconTrue = false;
+              });
+              ;
+            },
           ),
         ],
         title: const Text(
