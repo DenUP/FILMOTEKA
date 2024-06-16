@@ -204,7 +204,7 @@ class _SummeryWidget extends StatelessWidget {
         : '';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       child: IntrinsicHeight(
         child: Row(
           mainAxisSize: MainAxisSize.max,
