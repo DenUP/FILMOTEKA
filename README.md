@@ -1,11 +1,22 @@
 # 🎦 Filmoteka (В РАЗРАБОТКЕ)
 
-<img width="200" alt="Kinoteka-description" src="readme/description.png" />
-<img width="200" alt="Kinoteka-favorite" src="readme/favorite.png" />
-<img width="200" alt="Kinoteka-news" src="readme/news.png" />
-<img width="200" alt="Kinoteka-search" src="readme/search.png" />
 
 <b>Filmoteka</b> - это приложение для управления и организации коллекции фильмов. Оно предоставляет пользователю возможность создавать и хранить список фильмов, отмечать просмотренные фильмы, добавлять отзывы и оценки, а также находить новые фильмы для просмотра.
+
+## **Image Gallery**
+
+<hr/>
+
+<br>
+
+<p align="center">
+<img src="readme/description.png" alt="Kinoteka-description" width="30%" />
+<img src="readme/favorite.png" alt="Kinoteka-favorite" width="30%" />
+<img src="readme/news.png" alt="Kinoteka-news" width="30%" />
+<img src="readme/search.png" alt="Kinoteka-search" width="30%" />
+
+</p>
+<hr/>
 
 ## 😄 Auth
     - Login: admin@admin
