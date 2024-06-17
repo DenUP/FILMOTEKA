@@ -1,4 +1,6 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/ui/widgets/news/news_catalog_widget.dart';
+import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:filmoteka/ui/widgets/news/news_rating_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,14 @@ class NewsWidgets extends StatefulWidget {
 }
 
 class _NewsWidgetsState extends State<NewsWidgets> {
+  final newsModel = NewsModel();
+
+  @override
+  void didChangeDependencies() {
+    newsModel.resetMovie();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +30,15 @@ class _NewsWidgetsState extends State<NewsWidgets> {
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             // Header  TOP 5
-            NewsRatingWidgets(),
+            NotifierProvider(
+              create: () => newsModel,
+              isManagingModel: false,
+              child: const NewsRatingWidgets(),
+            ),
             // Container
             Text(
               'Популярные фильмы',

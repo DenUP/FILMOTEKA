@@ -1,4 +1,6 @@
+import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
+import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:flutter/material.dart';
 
 // Популярные фильмы
@@ -8,23 +10,26 @@ class NewsRatingWidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<NewsModel>(context);
+    if (model == null) return const CircularProgressIndicator();
     return SizedBox(
       height: 250,
       child: ListView.builder(
         shrinkWrap: false,
-        itemExtent: 200,
+        itemExtent: 180,
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: model.movies.length,
         itemBuilder: (context, index) {
+          final movies = model.movies[index];
           final countIndex = (index + 1).toString();
           return Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 10),
             child: Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    'assets/post/onepluseone.webp',
+                  child: Image.network(
+                    movies.poster?.url ?? movies.poster?.previewUrl ?? '',
                     fit: BoxFit.fill,
                     width: 150,
                     height: 210,
@@ -42,7 +47,7 @@ class NewsRatingWidgets extends StatelessWidget {
                             fontSize: 100,
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
-                              ..strokeWidth = 2.5
+                              ..strokeWidth = 5.5
                               ..color = colors.blue,
                           ),
                         ),
@@ -56,6 +61,13 @@ class NewsRatingWidgets extends StatelessWidget {
                         ),
                       ],
                     )),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => model.onMovieTap(context, index),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                )
               ],
             ),
           );

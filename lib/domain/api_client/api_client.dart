@@ -50,6 +50,21 @@ class ApiClient {
     return responseMovie;
   }
 
+  // Top 5
+  Future<PopularMovieResponse> topMovie(int page) async {
+    final pathUrl =
+        '${_host}movie?page=${page.toString()}&limit=250&notNullFields=name&notNullFields=poster.url&lists=top250';
+
+    final url = Uri.parse(pathUrl);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
+  }
+
   // Описание фильма
   Future<MovieDetails> movieDetails(int id) async {
     final pathUrl = 'https://api.kinopoisk.dev/v1.4/movie/$id';
