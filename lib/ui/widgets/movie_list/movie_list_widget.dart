@@ -36,9 +36,16 @@ class MovieListWidget extends StatelessWidget {
               model.showedMovieAtIndex(index);
               final movies = model.movies[index];
               final rating = movies.rating?.kp.toString() ?? '0';
-              final genres = movies.genres[0].name.isNotEmpty
-                  ? movies.genres[0].name.toString()
-                  : 'Жанр';
+              // final genres = movies.genres[0].name.isNotEmpty
+              //     ? movies.genres[0].name.toString()
+              //     : 'Жанр';
+              String? genres;
+              try {
+                genres = movies.genres[0].name.toString();
+              } catch (e) {
+                genres = 'Жанр';
+              }
+              ;
               final poster = movies.poster?.previewUrl ?? movies.poster?.url;
               return Padding(
                 padding:
@@ -101,7 +108,7 @@ class MovieListWidget extends StatelessWidget {
                                   width: 4,
                                 ),
                                 Text(
-                                  genres.isEmpty ? 'Жанр' : genres.capitalize(),
+                                  genres.capitalize(),
                                   style: const TextStyle(fontSize: 12),
                                 )
                               ],
