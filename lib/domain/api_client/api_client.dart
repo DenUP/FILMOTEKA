@@ -51,9 +51,24 @@ class ApiClient {
   }
 
   // Top 5
-  Future<PopularMovieResponse> topMovie(int page) async {
+  Future<PopularMovieResponse> topMovie() async {
+    const pathUrl =
+        '${_host}movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250';
+
+    final url = Uri.parse(pathUrl);
+    final request = await _client.getUrl(url);
+    request.headers.contentType;
+    request.headers.add('X-API-KEY', _apiKey);
+    final response = await request.close();
+    final json = (await response.JsonDecode()) as Map<String, dynamic>;
+    final responseMovie = PopularMovieResponse.fromJson(json);
+    return responseMovie;
+  }
+
+  // News_Popular
+  Future<PopularMovieResponse> newsPopular(int page) async {
     final pathUrl =
-        '${_host}movie?page=${page.toString()}&limit=250&notNullFields=name&notNullFields=poster.url&lists=top250';
+        '${_host}movie?page=$page&limit=50&notNullFields=poster.url&lists=popular-films';
 
     final url = Uri.parse(pathUrl);
     final request = await _client.getUrl(url);
@@ -105,3 +120,16 @@ extension HttpClientResponseJsonDecode on HttpClientResponse {
         .then((v) => json.decode(v));
   }
 }
+
+class MyHttpOverrides extends HttpOverrides {
+  final int maxConnections = 105;
+  
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    final HttpClient client = super.createHttpClient(context);
+    client.maxConnectionsPerHost = maxConnections;
+    return client;
+  }
+}
+
+

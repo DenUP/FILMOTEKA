@@ -82,7 +82,7 @@ class MovieListModel extends ChangeNotifier {
 
   // Подгрузка фильмов если список доходит до конца
   void showedMovieAtIndex(int index) {
-    if (index < _movies.length - 3) return;
+    if (index < _movies.length) return;
     loadNextPage();
   }
 }

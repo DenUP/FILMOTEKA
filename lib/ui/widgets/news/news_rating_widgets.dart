@@ -3,7 +3,7 @@ import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:flutter/material.dart';
 
-// Популярные фильмы
+// TOP5
 
 class NewsRatingWidgets extends StatelessWidget {
   const NewsRatingWidgets({super.key});
@@ -18,9 +18,9 @@ class NewsRatingWidgets extends StatelessWidget {
         shrinkWrap: false,
         itemExtent: 180,
         scrollDirection: Axis.horizontal,
-        itemCount: model.movies.length,
+        itemCount: model.topMovies.length ,
         itemBuilder: (context, index) {
-          final movies = model.movies[index];
+          final movies = model.topMovies[index];
           final countIndex = (index + 1).toString();
           return Padding(
             padding: const EdgeInsets.only(left: 10),

@@ -14,10 +14,11 @@ class NewsWidgets extends StatefulWidget {
 class _NewsWidgetsState extends State<NewsWidgets> {
   final newsModel = NewsModel();
 
+
   @override
-  void didChangeDependencies() {
+  void initState() {
     newsModel.resetMovie();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
@@ -40,14 +41,19 @@ class _NewsWidgetsState extends State<NewsWidgets> {
               child: const NewsRatingWidgets(),
             ),
             // Container
-            Text(
+            const Text(
               'Популярные фильмы',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            NewsCatalogWidget()
+            NotifierProvider(
+              create: () => newsModel,
+              isManagingModel: false,
+              child: const NewsCatalogWidget(),
+            ),
+
             // SizedBox(height: 500, child: NewsCatalogWidget())
           ],
         ),

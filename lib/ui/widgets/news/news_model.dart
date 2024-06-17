@@ -11,9 +11,11 @@ class NewsModel extends ChangeNotifier {
   late int _currentPage;
   late int _totalPage;
   var _isLoadingInProgress = false;
-  final _movies = <Movie>[];
+  final _topMovies = <Movie>[];
+  final _popularMovies = <Movie>[];
 
-  List<Movie> get movies => List.unmodifiable(_movies);
+  List<Movie> get topMovies => List.unmodifiable(_topMovies);
+  List<Movie> get popularMovies => List.unmodifiable(_popularMovies);
 
 // Загрузка популярные фильмов
   // Future<void> popularMovie() async {
@@ -28,20 +30,34 @@ class NewsModel extends ChangeNotifier {
   Future<void> resetMovie() async {
     _currentPage = 0;
     _totalPage = 1;
-    _movies.clear();
+    _topMovies.clear();
+    _popularMovies.clear();
     await loadNextPage();
+    await loadNextPageFavorite();
+
     // notifyListeners();
   }
 
   Future<void> loadNextPage() async {
+    // if (_isLoadingInProgress || _currentPage >= _totalPage) return;
+    try {
+      final moviesOtherResponse = await _apiClient.topMovie();
+      _topMovies.addAll(moviesOtherResponse.movies);
+      notifyListeners();
+    } catch (e) {
+      print("1111111111111 $e");
+    }
+  }
+
+  Future<void> loadNextPageFavorite() async {
     if (_isLoadingInProgress || _currentPage >= _totalPage) return;
     _isLoadingInProgress = true;
     final nextPage = _currentPage + 1;
     try {
-      final moviesOtherResponse = await _loadMovies(nextPage);
+      final moviesOtherResponse = await _loadMovieFavorite(nextPage);
       _currentPage = moviesOtherResponse.page;
       _totalPage = moviesOtherResponse.pages;
-      _movies.addAll(moviesOtherResponse.movies);
+      _popularMovies.addAll(moviesOtherResponse.movies);
       _isLoadingInProgress = false;
       notifyListeners();
     } catch (e) {
@@ -49,12 +65,20 @@ class NewsModel extends ChangeNotifier {
     }
   }
 
-  Future<PopularMovieResponse> _loadMovies(int nextPage) async {
-    return _apiClient.topMovie(nextPage);
+  Future<PopularMovieResponse> _loadMovieFavorite(int nextPage) async {
+    return _apiClient.newsPopular(nextPage);
   }
 
   void onMovieTap(BuildContext context, int index) {
-    final id = _movies[index].id;
+    final id = _topMovies[index].id;
+    Navigator.of(context).pushNamed(
+      MainNavigationRouteName.movieDetails,
+      arguments: id,
+    );
+  }
+
+  void onMovieFavorite(BuildContext context, int index) {
+    final id = _popularMovies[index].id;
     Navigator.of(context).pushNamed(
       MainNavigationRouteName.movieDetails,
       arguments: id,
@@ -63,7 +87,7 @@ class NewsModel extends ChangeNotifier {
 
   // Подгрузка фильмов если список доходит до конца
   void showedMovieAtIndex(int index) {
-    if (index < _movies.length) return;
+    if (index < _popularMovies.length) return;
     loadNextPage();
   }
 }
