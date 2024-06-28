@@ -1,7 +1,7 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
+import 'package:filmoteka/domain/factoryes/screen_factory.dart';
 import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
-import 'package:filmoteka/ui/widgets/loader_widget/loader_widget.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_model.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
@@ -18,8 +18,9 @@ abstract class MainNavigationRouteName {
 }
 
 class MainNavigation {
+  static final _screenFactory = ScreenFactory();
   final routes = <String, WidgetBuilder>{
-    MainNavigationRouteName.loader: (context) => LoaderWidget.create(),
+    MainNavigationRouteName.loader: (context) => _screenFactory.makeLoader(),
     MainNavigationRouteName.auth: (context) => NotifierProvider(
           create: () => AuthModel(),
           child: const AuthWidgets(),

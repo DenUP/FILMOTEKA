@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:filmoteka/domain/entity/movie_details.dart';
-import 'package:filmoteka/domain/entity/movies.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 
 class ApiClient {
@@ -123,7 +122,7 @@ extension HttpClientResponseJsonDecode on HttpClientResponse {
 
 class MyHttpOverrides extends HttpOverrides {
   final int maxConnections = 105;
-  
+
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     final HttpClient client = super.createHttpClient(context);
@@ -131,5 +130,3 @@ class MyHttpOverrides extends HttpOverrides {
     return client;
   }
 }
-
-
