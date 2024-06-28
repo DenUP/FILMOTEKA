@@ -1,10 +1,11 @@
-import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
+import 'package:filmoteka/domain/services/auth_service.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class LoaderViewModel {
+  final _authService = AuthService();
   BuildContext context;
-  final _sessionDataProvider = SessionDataProvider();
+
   LoaderViewModel(this.context) {
     asyncInit();
   }
@@ -14,8 +15,7 @@ class LoaderViewModel {
   }
 
   Future<void> checkAuth() async {
-    final sessionId = await _sessionDataProvider.getSessionId();
-    final isAuth = sessionId != null;
+    final isAuth = await _authService.isAuth();
     final nextPage = isAuth
         ? MainNavigationRouteName.mainScreen
         : MainNavigationRouteName.auth;
