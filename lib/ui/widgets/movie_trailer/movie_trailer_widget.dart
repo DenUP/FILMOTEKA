@@ -54,6 +54,5 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
         },
       ),
     );
-    ;
   }
 }

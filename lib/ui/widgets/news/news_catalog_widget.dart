@@ -41,22 +41,7 @@ class NewsCatalogWidget extends StatelessWidget {
                                 value: downloadProgress.progress),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   )
-                  // Image.network(
-                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                  //   fit: BoxFit.cover,
-                  //   loadingBuilder: (BuildContext context, Widget child,
-                  //       ImageChunkEvent? loadingProgress) {
-                  //     if (loadingProgress == null) return child;
-                  //     return Center(
-                  //       child: CircularProgressIndicator(
-                  //         value: loadingProgress.expectedTotalBytes != null
-                  //             ? loadingProgress.cumulativeBytesLoaded /
-                  //                 loadingProgress.expectedTotalBytes!
-                  //             : null,
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
+
                   // Image.network(
                   //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
                   //   height: 250,

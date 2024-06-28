@@ -1,6 +1,7 @@
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/UI/widgets/auth/auth_widget.dart';
 import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
+import 'package:filmoteka/ui/widgets/loader_widget/loader_widget.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_model.dart';
 import 'package:filmoteka/ui/widgets/main_screen/main_screen_widget.dart';
 import 'package:filmoteka/ui/widgets/movie_details/movie_details_model.dart';
@@ -9,17 +10,16 @@ import 'package:filmoteka/ui/widgets/movie_trailer/movie_trailer_widget.dart';
 import 'package:flutter/material.dart';
 
 abstract class MainNavigationRouteName {
-  static const auth = 'auth';
-  static const mainScreen = '/';
-  static const movieDetails = '/movie_details';
-  static const trailer = '/movie_details/trailer';
+  static const loader = '/';
+  static const auth = '/auth';
+  static const mainScreen = '/main_screen';
+  static const movieDetails = '/main_screen/movie_details';
+  static const trailer = '/main_screen/movie_details/trailer';
 }
 
 class MainNavigation {
-  String initialRoute(bool isAuth) => isAuth
-      ? MainNavigationRouteName.mainScreen
-      : MainNavigationRouteName.auth;
   final routes = <String, WidgetBuilder>{
+    MainNavigationRouteName.loader: (context) => LoaderWidget.create(),
     MainNavigationRouteName.auth: (context) => NotifierProvider(
           create: () => AuthModel(),
           child: const AuthWidgets(),

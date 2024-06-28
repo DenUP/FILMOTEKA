@@ -1,13 +1,9 @@
 import 'package:filmoteka/ui/widgets/app/my_app.dart';
-import 'package:filmoteka/ui/widgets/app/my_app_model.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final model = MyAppModel();
-  await model.checkAuth();
 
   await Supabase.initialize(
     url: 'https://hocmobhnhmeqwrcltwdu.supabase.co',
@@ -16,9 +12,7 @@ Future<void> main() async {
   );
 
   runApp(
-    App(
-      model: model,
-    ),
+    const App(),
   );
 }
 
