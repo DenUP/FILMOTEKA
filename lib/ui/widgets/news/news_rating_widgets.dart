@@ -2,6 +2,7 @@ import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 // TOP5
 
@@ -18,7 +19,7 @@ class NewsRatingWidgets extends StatelessWidget {
         shrinkWrap: false,
         itemExtent: 180,
         scrollDirection: Axis.horizontal,
-        itemCount: model.topMovies.length ,
+        itemCount: model.topMovies.length,
         itemBuilder: (context, index) {
           final movies = model.topMovies[index];
           final countIndex = (index + 1).toString();
@@ -28,12 +29,19 @@ class NewsRatingWidgets extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: Image.network(
-                    movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                    fit: BoxFit.fill,
-                    width: 150,
-                    height: 210,
-                  ),
+                  child: 
+                  CachedNetworkImage(
+       imageUrl: movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+       progressIndicatorBuilder: (context, url, downloadProgress) => 
+               CircularProgressIndicator(value: downloadProgress.progress),
+       errorWidget: (context, url, error) => Icon(Icons.error),
+    ),
+                  // Image.network(
+                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+                  //   fit: BoxFit.fill,
+                  //   width: 150,
+                  //   height: 210,
+                  // ),
                 ),
                 Positioned(
                     height: 110,

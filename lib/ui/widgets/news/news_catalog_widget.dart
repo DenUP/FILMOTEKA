@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:flutter/material.dart';
@@ -29,30 +30,40 @@ class NewsCatalogWidget extends StatelessWidget {
           return GestureDetector(
               onTap: () => model.onMovieFavorite(context, index),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
-                ),
-                // Image.network(
-                //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                //   height: 250,
-                //   width: 100,
-                //   fit: BoxFit.cover,
-                // ),
-              ));
+                  borderRadius: BorderRadius.circular(16),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl:
+                        movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  )
+                  // Image.network(
+                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+                  //   fit: BoxFit.cover,
+                  //   loadingBuilder: (BuildContext context, Widget child,
+                  //       ImageChunkEvent? loadingProgress) {
+                  //     if (loadingProgress == null) return child;
+                  //     return Center(
+                  //       child: CircularProgressIndicator(
+                  //         value: loadingProgress.expectedTotalBytes != null
+                  //             ? loadingProgress.cumulativeBytesLoaded /
+                  //                 loadingProgress.expectedTotalBytes!
+                  //             : null,
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // Image.network(
+                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+                  //   height: 250,
+                  //   width: 100,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  ));
         });
   }
 }
