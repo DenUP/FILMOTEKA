@@ -45,7 +45,7 @@ class MovieListWidget extends StatelessWidget {
               } catch (e) {
                 genres = 'Жанр';
               }
-              
+
               final poster = movies.poster?.previewUrl ?? movies.poster?.url;
               return Padding(
                 padding:
