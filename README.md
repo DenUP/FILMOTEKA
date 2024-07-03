@@ -25,8 +25,12 @@
 
 ## 🦉 Stack
     - Sdk: '>=3.3.4 <4.0.0'
+    - Provider: ^6.1.2
     - Supabase_flutter: ^2.5.4 
     - Flutter_secure_storage: ^9.2.2
+    - json_annotation: ^4.9.0
+    - Cached_network_image: ^3.3.1
+    - Youtube_player_flutter: ^9.0.1
     
 
 

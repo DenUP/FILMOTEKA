@@ -4,14 +4,9 @@ import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class AuthWidgets extends StatefulWidget {
+class AuthWidgets extends StatelessWidget {
   const AuthWidgets({super.key});
 
-  @override
-  State<AuthWidgets> createState() => _AuthWidgetsState();
-}
-
-class _AuthWidgetsState extends State<AuthWidgets> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

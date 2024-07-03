@@ -88,7 +88,7 @@ class MovieListWidget extends StatelessWidget {
                                   width: 4,
                                 ),
                                 Text(
-                                  rating ?? '0',
+                                  rating,
                                   style: const TextStyle(
                                       color: colors.rating,
                                       fontSize: 15,
