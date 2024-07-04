@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
-import 'package:filmoteka/main.dart';
+import 'package:filmoteka/domain/services/auth_service.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthModel extends ChangeNotifier {
-  // final _apiClient = ApiClient();
-  final _sessionDataProvider = SessionDataProvider();
+class AuthViewModel extends ChangeNotifier {
+  final _authService = AuthService();
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -20,46 +17,39 @@ class AuthModel extends ChangeNotifier {
   bool get canStartAuth => !_isAuthProgress;
   bool get isAuthProgress => _isAuthProgress;
 
+  bool _isValid(String login, String password) =>
+      login.isNotEmpty || password.isNotEmpty;
+
   Future<void> auth(BuildContext context) async {
     var login = loginController.text;
     var password = passwordController.text;
-    if (login.isEmpty || password.isEmpty) {
-      _errorMessage = 'Введите логин и пароль';
-      notifyListeners();
+    if (!_isValid(login, password)) {
+      _updateState('Введите логин и пароль', false);
       return;
     }
-    _errorMessage = null;
-    _isAuthProgress = true;
-    notifyListeners();
-    String? sessionId;
-    try {
-      final AuthResponse res = await supabase.auth.signInWithPassword(
-        email: loginController.text,
-        password: passwordController.text,
-      );
+    _updateState(null, true);
 
-      final Session? session = res.session;
-      // final User? user = res.user;
-      sessionId = session?.refreshToken;
+    try {
+      await _authService.login(login, password);
     } catch (e) {
-      _errorMessage = 'Не правильный логин или пароль';
+      _updateState('Не правильный логин или пароль', false);
     }
+
     _isAuthProgress = false;
     notifyListeners();
-    if (_errorMessage != null) {
-      notifyListeners();
-      return;
-    }
-    if (sessionId == null) {
-      notifyListeners();
-      _errorMessage = 'Ошибка получение данных с сервера';
-      return;
+    if (_errorMessage == null) {
+      MainNavigation.resetNavigation(context);
     } else {
-      // подождем пока запишется
-      await _sessionDataProvider.setSesionId(sessionId);
-      // переход не будем ждать пусть сразу вызывает
-      unawaited(Navigator.of(context)
-          .pushReplacementNamed(MainNavigationRouteName.mainScreen));
+      _updateState(errorMessage, false);
     }
+  }
+
+  void _updateState(String? errorMessage, bool isAuthProgress) {
+    if (_errorMessage == errorMessage && _isAuthProgress == isAuthProgress) {
+      return;
+    }
+    _errorMessage = errorMessage;
+    _isAuthProgress = isAuthProgress;
+    notifyListeners();
   }
 }

@@ -1,8 +1,8 @@
-import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/ui/widgets/auth/auth_model.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthWidgets extends StatelessWidget {
   const AuthWidgets({super.key});
@@ -41,11 +41,11 @@ class _FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<AuthModel>(context);
+    final model = context.read<AuthViewModel>();
     return Column(
       children: [
         TextField(
-          controller: model?.loginController,
+          controller: model.loginController,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
             isCollapsed: true,
@@ -57,7 +57,7 @@ class _FormWidget extends StatelessWidget {
           height: 20,
         ),
         TextField(
-          controller: model?.passwordController,
+          controller: model.passwordController,
           keyboardType: TextInputType.visiblePassword,
           autocorrect: false,
           obscureText: true,
@@ -99,10 +99,9 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AuthModel>(context);
-    final onPressed =
-        model?.canStartAuth == true ? () => model?.auth(context) : null;
-    final inpProgress = model?.isAuthProgress == true
+    final model = context.watch<AuthViewModel>();
+    final onPressed = model.canStartAuth ? () => model.auth(context) : null;
+    final inpProgress = model.isAuthProgress
         ? const CircularProgressIndicator()
         : const Text(
             'Log in',
@@ -138,8 +137,7 @@ class _ErrorMesage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMesage =
-        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
+    final errorMesage = context.select((AuthViewModel vm) => vm.errorMessage);
 
     if (errorMesage == null) return const SizedBox.shrink();
     return Padding(

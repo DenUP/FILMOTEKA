@@ -33,4 +33,9 @@ class MainNavigation {
         return MaterialPageRoute(builder: (_) => errorWidget);
     }
   }
+
+  static void resetNavigation(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        MainNavigationRouteName.loader, (route) => false);
+  }
 }
