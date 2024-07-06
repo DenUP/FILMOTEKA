@@ -46,7 +46,7 @@ class ApiClient {
     }
 
     final result = _get(
-      'movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
+      'movie?page=${page.toString()}&limit=200&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
       parser,
     );
     return result;
@@ -74,7 +74,7 @@ class ApiClient {
     }
 
     final result = _get(
-        'movie?page=$page&limit=50&notNullFields=poster.url&lists=popular-films',
+        'movie?page=$page&limit=200&notNullFields=poster.url&lists=popular-films',
         parser);
     return result;
   }
