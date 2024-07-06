@@ -9,110 +9,106 @@ class ApiClient {
   // kinopoisk
   static const _host = 'https://api.kinopoisk.dev/v1.4/';
 
-  //hostMovie Popular
-  static const _hosmMoviePopular =
-      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=200&type=movie&lists=top250';
-// other Movie
-
   //host Serial Popular
   static const _hostSerialPopular =
       'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=tv-series&lists=series-top250';
 
   // kinopoisk Apikey[X-API-KEY]
   static const _apiKey = 'KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
+// Создание URL
 
-// Популярные фильмы
-  Future<PopularMovieResponse> popularMovie() async {
-    final url = Uri.parse(_hosmMoviePopular);
+  Uri _makeUri(
+    String path,
+  ) {
+    final uri = Uri.parse('$_host$path');
+    return uri;
+  }
+
+  Future<T> _get<T>(
+    String path,
+    T Function(dynamic json) parser,
+  ) async {
+    final url = _makeUri(path);
     final request = await _client.getUrl(url);
     request.headers.contentType;
     request.headers.add('X-API-KEY', _apiKey);
     final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    // final docs = json['docs'] as List<dynamic>;
-    final responseMovie = PopularMovieResponse.fromJson(json);
-    return responseMovie;
+    final json = (await response.jsonDecode() as Map<String, dynamic>);
+    final result = parser(json);
+    return result;
   }
 
   // Остальные фильмы
   Future<PopularMovieResponse> otherMovie(int page) async {
-    final pathUrl =
-        '${_host}movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10';
+    parser(dynamic json) {
+      final response = PopularMovieResponse.fromJson(json);
+      return response;
+    }
 
-    final url = Uri.parse(pathUrl);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final responseMovie = PopularMovieResponse.fromJson(json);
-    return responseMovie;
+    final result = _get(
+      'movie?page=${page.toString()}&limit=250&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
+      parser,
+    );
+    return result;
   }
 
-  // Top 5
+  // Header - Top 5
   Future<PopularMovieResponse> topMovie() async {
-    const pathUrl =
-        '${_host}movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250';
+    parser(dynamic json) {
+      final responseMovie = PopularMovieResponse.fromJson(json);
+      return responseMovie;
+    }
 
-    final url = Uri.parse(pathUrl);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final responseMovie = PopularMovieResponse.fromJson(json);
-    return responseMovie;
+    final result = _get(
+        'movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250',
+        parser);
+
+    return result;
   }
 
   // News_Popular
   Future<PopularMovieResponse> newsPopular(int page) async {
-    final pathUrl =
-        '${_host}movie?page=$page&limit=50&notNullFields=poster.url&lists=popular-films';
+    parser(dynamic json) {
+      final responseMovie = PopularMovieResponse.fromJson(json);
+      return responseMovie;
+    }
 
-    final url = Uri.parse(pathUrl);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final responseMovie = PopularMovieResponse.fromJson(json);
-    return responseMovie;
+    final result = _get(
+        'movie?page=$page&limit=50&notNullFields=poster.url&lists=popular-films',
+        parser);
+    return result;
   }
 
   // Описание фильма
   Future<MovieDetails> movieDetails(int id) async {
-    final pathUrl = 'https://api.kinopoisk.dev/v1.4/movie/$id';
+    parser(dynamic json) {
+      final responseMovie = MovieDetails.fromJson(json);
+      return responseMovie;
+    }
 
-    final url = Uri.parse(pathUrl);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final responseMovie = MovieDetails.fromJson(json);
-    return responseMovie;
+    final result = _get('movie/$id', parser);
+    return result;
   }
 
   // Поиск фильмов TextField
   Future<PopularMovieResponse> searchQuearyMovie(int page, String query) async {
     // Декодировение строки в запрос
     var decoded = Uri.encodeComponent(query);
-    final searchMovie =
-        '${_host}movie/search?page=${page.toString()}&field[]=genres.name&field=typeNumber&limit=50&query=$decoded';
+    parser(dynamic json) {
+      final responseMovie = PopularMovieResponse.fromJson(json);
+      return responseMovie;
+    }
 
-    final url = Uri.parse(searchMovie);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.JsonDecode()) as Map<String, dynamic>;
-    final responseMovie = PopularMovieResponse.fromJson(json);
-    return responseMovie;
+    final result = _get(
+        'movie/search?page=${page.toString()}&field[]=genres.name&field=typeNumber&limit=50&query=$decoded',
+        parser);
+
+    return result;
   }
 }
 
 extension HttpClientResponseJsonDecode on HttpClientResponse {
-  Future<void> JsonDecode() async {
+  Future<void> jsonDecode() async {
     return transform(utf8.decoder)
         .toList()
         .then((value) => value.join())

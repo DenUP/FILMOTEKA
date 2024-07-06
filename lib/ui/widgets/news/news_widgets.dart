@@ -3,6 +3,7 @@ import 'package:filmoteka/ui/widgets/news/news_catalog_widget.dart';
 import 'package:filmoteka/ui/widgets/news/news_model.dart';
 import 'package:filmoteka/ui/widgets/news/news_rating_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewsWidgets extends StatefulWidget {
   const NewsWidgets({super.key});
@@ -13,7 +14,6 @@ class NewsWidgets extends StatefulWidget {
 
 class _NewsWidgetsState extends State<NewsWidgets> {
   final newsModel = NewsModel();
-
 
   @override
   void initState() {
