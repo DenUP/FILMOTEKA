@@ -1,43 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:filmoteka/domain/api_client/network_client.dart';
 import 'package:filmoteka/domain/entity/movie_details.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 
 class ApiClient {
-  final _client = HttpClient();
-  // kinopoisk
-  static const _host = 'https://api.kinopoisk.dev/v1.4/';
+  final _networkClient = NetworkClient();
 
-  //host Serial Popular
-  static const _hostSerialPopular =
-      'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&type=tv-series&lists=series-top250';
-
-  // kinopoisk Apikey[X-API-KEY]
-  static const _apiKey = 'KNWPBBJ-ZE1MWWK-P1P35CB-DSXZDQJ';
-// Создание URL
-
-  Uri _makeUri(
-    String path,
-  ) {
-    final uri = Uri.parse('$_host$path');
-    return uri;
-  }
-
-  Future<T> _get<T>(
-    String path,
-    T Function(dynamic json) parser,
-  ) async {
-    final url = _makeUri(path);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', _apiKey);
-    final response = await request.close();
-    final json = (await response.jsonDecode() as Map<String, dynamic>);
-    final result = parser(json);
-    return result;
-  }
-
+ 
   // Остальные фильмы
   Future<PopularMovieResponse> otherMovie(int page) async {
     parser(dynamic json) {
@@ -45,7 +15,7 @@ class ApiClient {
       return response;
     }
 
-    final result = _get(
+    final result = _networkClient.get(
       'movie?page=${page.toString()}&limit=200&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
       parser,
     );
@@ -59,7 +29,7 @@ class ApiClient {
       return responseMovie;
     }
 
-    final result = _get(
+    final result = _networkClient.get(
         'movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250',
         parser);
 
@@ -73,7 +43,7 @@ class ApiClient {
       return responseMovie;
     }
 
-    final result = _get(
+    final result = _networkClient.get(
         'movie?page=$page&limit=200&notNullFields=poster.url&lists=popular-films',
         parser);
     return result;
@@ -86,7 +56,7 @@ class ApiClient {
       return responseMovie;
     }
 
-    final result = _get('movie/$id', parser);
+    final result = _networkClient.get('movie/$id', parser);
     return result;
   }
 
@@ -99,7 +69,7 @@ class ApiClient {
       return responseMovie;
     }
 
-    final result = _get(
+    final result = _networkClient.get(
         'movie/search?page=${page.toString()}&field[]=genres.name&field=typeNumber&limit=50&query=$decoded',
         parser);
 
@@ -107,14 +77,7 @@ class ApiClient {
   }
 }
 
-extension HttpClientResponseJsonDecode on HttpClientResponse {
-  Future<void> jsonDecode() async {
-    return transform(utf8.decoder)
-        .toList()
-        .then((value) => value.join())
-        .then((v) => json.decode(v));
-  }
-}
+
 
 class MyHttpOverrides extends HttpOverrides {
   final int maxConnections = 105;
