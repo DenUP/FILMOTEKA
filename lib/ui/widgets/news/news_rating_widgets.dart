@@ -29,13 +29,15 @@ class NewsRatingWidgets extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: 
-                  CachedNetworkImage(
-       imageUrl: movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-       progressIndicatorBuilder: (context, url, downloadProgress) => 
-               CircularProgressIndicator(value: downloadProgress.progress),
-       errorWidget: (context, url, error) => Icon(Icons.error),
-    ),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        movies.poster?.url ?? movies.poster?.previewUrl ?? '',
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                   // Image.network(
                   //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
                   //   fit: BoxFit.fill,
@@ -44,8 +46,8 @@ class NewsRatingWidgets extends StatelessWidget {
                   // ),
                 ),
                 Positioned(
-                    height: 110,
-                    top: 130,
+                    height: 140,
+                    top: 140,
                     child: Stack(
                       children: <Widget>[
                         // Stroked text as border.
@@ -55,7 +57,7 @@ class NewsRatingWidgets extends StatelessWidget {
                             fontSize: 100,
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
-                              ..strokeWidth = 5.5
+                              ..strokeWidth = 3.5
                               ..color = colors.blue,
                           ),
                         ),

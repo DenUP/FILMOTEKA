@@ -22,8 +22,8 @@ class NewsCatalogWidget extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 10.0,
-          crossAxisSpacing: 5.0,
-          childAspectRatio: 0.8,
+          crossAxisSpacing: 14.0,
+          childAspectRatio: 0.7,
         ),
         itemBuilder: (BuildContext context, int index) {
           final movies = model.popularMovies[index];

@@ -41,13 +41,14 @@ class _NewsWidgetsState extends State<NewsWidgets> {
               child: const NewsRatingWidgets(),
             ),
             // Container
-            const Text(
-              'Популярные фильмы',
-              style: TextStyle(color: Colors.white, fontSize: 20),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                'Популярные фильмы',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+
             NotifierProvider(
               create: () => newsModel,
               isManagingModel: false,
