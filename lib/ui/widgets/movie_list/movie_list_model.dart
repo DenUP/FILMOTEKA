@@ -6,16 +6,35 @@ import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
+class MovieListRowData {
+  final int id;
+  final String name;
+  final String? poster;
+  final String rating;
+  final String genres; // Жанр
+  final String year;
+  final String time;
+
+  MovieListRowData(
+      {required this.id,
+      required this.name,
+      this.poster,
+      required this.rating,
+      required this.genres,
+      required this.year,
+      required this.time});
+}
+
 class MovieListViewModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   late int _currentPage;
   late int _totalPage;
   var _isLoadingInProgress = false;
-  final _movies = <Movie>[];
+  final _movies = <MovieListRowData>[];
   String? _searchQuery;
   Timer? searchDeboubce;
 
-  List<Movie> get movies => List.unmodifiable(_movies);
+  List<MovieListRowData> get movies => List.unmodifiable(_movies);
 
 // Загрузка популярные фильмов
   // Future<void> popularMovie() async {
@@ -43,7 +62,7 @@ class MovieListViewModel extends ChangeNotifier {
       final moviesOtherResponse = await _loadMovies(nextPage);
       _currentPage = moviesOtherResponse.page;
       _totalPage = moviesOtherResponse.pages;
-      _movies.addAll(moviesOtherResponse.movies);
+      _movies.addAll(moviesOtherResponse.movies.map(_makeRowData).toList());
       _isLoadingInProgress = false;
       notifyListeners();
     } catch (e) {
@@ -58,6 +77,25 @@ class MovieListViewModel extends ChangeNotifier {
     } else {
       return await _apiClient.searchQuearyMovie(nextPage, text);
     }
+  }
+
+  MovieListRowData _makeRowData(Movie movie) {
+    final poster = movie.poster?.previewUrl ?? movie.poster?.url;
+    final rationg =
+        movie.rating?.kp != null ? movie.rating!.kp.toString() : '0';
+    final genres =
+        movie.genres[0].name != null ? movie.genres[0].name.toString() : 'Жанр';
+    final year = movie.year != null ? movie.year.toString() : '0';
+    final time = movie.movieLength != null ? movie.movieLength.toString() : '0';
+    return MovieListRowData(
+      id: movie.id,
+      name: movie.name,
+      poster: poster,
+      rating: rationg,
+      genres: genres,
+      year: year,
+      time: time,
+    );
   }
 
   void onMovieTap(BuildContext context, int index) {

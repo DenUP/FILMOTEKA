@@ -6,7 +6,7 @@ part 'genres.g.dart';
 
 @JsonSerializable()
 class Genres {
-  final String name;
+  final String? name;
 
   Genres({
     required this.name,

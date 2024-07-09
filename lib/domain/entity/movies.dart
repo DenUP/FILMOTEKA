@@ -15,7 +15,7 @@ class Movie {
   final List<LocalazeNames>? names;
   final String type;
   final int typeNumber;
-  final int year;
+  final int? year;
   final String? description;
   final String? shortDescription;
   final dynamic status;
