@@ -54,8 +54,6 @@ class _NewsWidgetsState extends State<NewsWidgets> {
               isManagingModel: false,
               child: const NewsCatalogWidget(),
             ),
-
-            // SizedBox(height: 500, child: NewsCatalogWidget())
           ],
         ),
       ),

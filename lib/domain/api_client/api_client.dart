@@ -77,8 +77,6 @@ class ApiClient {
   }
 }
 
-
-
 class MyHttpOverrides extends HttpOverrides {
   final int maxConnections = 105;
 

@@ -1,7 +1,5 @@
-import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
+import 'package:filmoteka/domain/factoryes/screen_factory.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
-import 'package:filmoteka/ui/widgets/movie_list/movie_list_widget.dart';
-import 'package:filmoteka/ui/widgets/news/news_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -12,7 +10,8 @@ class MainScreenWidget extends StatefulWidget {
 }
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
-  final movieListModel = MovieListModel();
+  final _screenFactory = ScreenFactory();
+  final movieListModel = MovieListViewModel();
   int _selectedTab = 0;
 
   void onSelectTab(int index) {
@@ -22,29 +21,14 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   movieListModel.loadNextPage();
-  //   super.initState();
-  // }
-  @override
-  void didChangeDependencies() {
-    movieListModel.resetMovie();
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          const NewsWidgets(),
-          NotifierProvider(
-            create: () => movieListModel,
-            isManagingModel: false,
-            child: const MovieListWidget(),
-          ),
+          _screenFactory.makeNews(),
+          _screenFactory.makeMovieList(),
           const Text('Сериалы'),
         ],
       ),

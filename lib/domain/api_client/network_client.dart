@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:filmoteka/configuration/configuration.dart';
 
 class NetworkClient {

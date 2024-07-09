@@ -45,7 +45,7 @@ class NewsModel extends ChangeNotifier {
       _topMovies.addAll(moviesOtherResponse.movies);
       notifyListeners();
     } catch (e) {
-      print("1111111111111 $e");
+      print("Error News_model.dart - LoadNextPage --- $e");
     }
   }
 

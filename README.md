@@ -24,6 +24,7 @@
 
 
 ## 🦉 Stack
+    - Flutter: MVVM Architecture
     - Sdk: '>=3.3.4 <4.0.0'
     - Provider: ^6.1.2
     - Supabase_flutter: ^2.5.4 

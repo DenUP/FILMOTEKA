@@ -1,16 +1,27 @@
-import 'package:filmoteka/Library/Widgets/inherited/provider.dart';
 import 'package:filmoteka/Library/modif_string.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MovieListWidget extends StatelessWidget {
+class MovieListWidget extends StatefulWidget {
   const MovieListWidget({super.key});
 
   @override
+  State<MovieListWidget> createState() => _MovieListWidgetState();
+}
+
+class _MovieListWidgetState extends State<MovieListWidget> {
+  @override
+  void initState() {
+    context.read<MovieListViewModel>().resetMovie();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieListModel>(context);
+    final model = context.watch<MovieListViewModel>();
     if (model == null) return const SizedBox.shrink();
     return Scaffold(
       appBar: AppBar(
