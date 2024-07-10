@@ -1,4 +1,3 @@
-import 'package:filmoteka/Library/modif_string.dart';
 import 'package:filmoteka/Theme/color.dart';
 import 'package:filmoteka/domain/data_provider/session_data_provider.dart';
 import 'package:filmoteka/ui/widgets/movie_list/movie_list_model.dart';
@@ -71,15 +70,6 @@ class _MovieListRowWidget extends StatelessWidget {
     final model = context.read<MovieListViewModel>();
     model.showedMovieAtIndex(index);
     final movies = model.movies[index];
-    // final rating = movies.rating?.kp.toString() ?? '0';
-    // String? genres;
-    // try {
-    //   genres = movies.genres[0].name.toString();
-    // } catch (e) {
-    //   genres = 'Жанр';
-    // }
-
-    // final poster = movies.poster?.previewUrl ?? movies.poster?.url;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Stack(
