@@ -14,7 +14,7 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   @override
   void initState() {
-    context.read<MovieListViewModel>().resetMovie();
+    context.read<MovieListViewModel>().resetList();
     super.initState();
   }
 

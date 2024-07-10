@@ -3,7 +3,7 @@ import 'package:filmoteka/domain/entity/movie_details.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _apiClient = MovieApiClient();
   final int movieId;
   MovieDetails? _movieDetails;
 

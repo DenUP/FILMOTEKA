@@ -4,10 +4,9 @@ import 'package:filmoteka/domain/api_client/network_client.dart';
 import 'package:filmoteka/domain/entity/movie_details.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 
-class ApiClient {
+class MovieApiClient {
   final _networkClient = NetworkClient();
 
- 
   // Остальные фильмы
   Future<PopularMovieResponse> otherMovie(int page) async {
     parser(dynamic json) {

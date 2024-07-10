@@ -22,6 +22,8 @@ class Paginator<T> {
     required this.load,
   });
 
+  List<T> get data => _data;
+
   Future<void> resetMovie() async {
     _currentPage = 0;
     _totalPage = 1;

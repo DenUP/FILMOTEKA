@@ -7,7 +7,7 @@ import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class NewsModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _apiClient = MovieApiClient();
   late int _currentPage;
   late int _totalPage;
   var _isLoadingInProgress = false;
