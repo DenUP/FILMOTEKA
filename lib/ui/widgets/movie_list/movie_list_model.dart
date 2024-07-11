@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:filmoteka/Library/paginator.dart';
 import 'package:filmoteka/domain/entity/movies.dart';
-import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 import 'package:filmoteka/domain/services/movie_service.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +29,16 @@ class MovieListViewModel extends ChangeNotifier {
   final _movieService = MovieService();
   late final Paginator<Movie> _popularMoviePaginator;
   late final Paginator<Movie> _searchMoviePaginator;
+  Timer? searchDeboubce;
+
   var _movies = <MovieListRowData>[];
   String? _searchQuery;
-  Timer? searchDeboubce;
 
   bool get isSearchMode {
     final searchQuery = _searchQuery;
-    return searchQuery != null && searchQuery.isNotEmpty;
+    return searchQuery != null &&
+        searchQuery.isNotEmpty &&
+        searchQuery.trim().isNotEmpty;
   }
 
   List<MovieListRowData> get movies => List.unmodifiable(_movies);
@@ -72,6 +74,7 @@ class MovieListViewModel extends ChangeNotifier {
   Future<void> resetList() async {
     await _popularMoviePaginator.resetMovie();
     await _searchMoviePaginator.resetMovie();
+    _movies.clear();
     await loadNextPage();
     notifyListeners();
   }
@@ -84,6 +87,7 @@ class MovieListViewModel extends ChangeNotifier {
       await _popularMoviePaginator.loadNextPage();
       _movies = _popularMoviePaginator.data.map(_makeRowData).toList();
     }
+    notifyListeners();
   }
 
   // Future<PopularMovieResponse> _loadMovies(int nextPage) async {
@@ -130,7 +134,7 @@ class MovieListViewModel extends ChangeNotifier {
   Future<void> serachMovie(String text) async {
     // отменты предыдущих запросов (чтобы отправлялся только один запрос в сеть)
     searchDeboubce?.cancel();
-    searchDeboubce = Timer(const Duration(seconds: 3), () async {
+    searchDeboubce = Timer(const Duration(seconds: 1), () async {
       final searchQuery = text.isNotEmpty ? text : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
