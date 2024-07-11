@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:filmoteka/domain/api_client/api_client.dart';
+import 'package:filmoteka/Library/paginator.dart';
 import 'package:filmoteka/domain/entity/movies.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
+import 'package:filmoteka/domain/services/movie_service.dart';
 import 'package:filmoteka/ui/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -26,15 +27,37 @@ class MovieListRowData {
 }
 
 class MovieListViewModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
-  late int _currentPage;
-  late int _totalPage;
-  var _isLoadingInProgress = false;
-  final _movies = <MovieListRowData>[];
+  final _movieService = MovieService();
+  late final Paginator<Movie> _popularMoviePaginator;
+  late final Paginator<Movie> _searchMoviePaginator;
+  var _movies = <MovieListRowData>[];
   String? _searchQuery;
   Timer? searchDeboubce;
 
+  bool get isSearchMode {
+    final searchQuery = _searchQuery;
+    return searchQuery != null && searchQuery.isNotEmpty;
+  }
+
   List<MovieListRowData> get movies => List.unmodifiable(_movies);
+
+  MovieListViewModel() {
+    _popularMoviePaginator = Paginator<Movie>(load: (page) async {
+      final result = await _movieService.otherMovie(page);
+      return PaginatorLoadResult(
+          data: result.movies,
+          currentPage: result.page,
+          totalPage: result.pages);
+    });
+    _searchMoviePaginator = Paginator<Movie>(load: (page) async {
+      final result =
+          await _movieService.searchQuearyMovie(page, _searchQuery ?? "");
+      return PaginatorLoadResult(
+          data: result.movies,
+          currentPage: result.page,
+          totalPage: result.pages);
+    });
+  }
 
 // Загрузка популярные фильмов
   // Future<void> popularMovie() async {
@@ -46,45 +69,42 @@ class MovieListViewModel extends ChangeNotifier {
 
 // После уже остальные фильмы полгружаются
 
-  Future<void> resetMovie() async {
-    _currentPage = 0;
-    _totalPage = 1;
-    _movies.clear();
+  Future<void> resetList() async {
+    await _popularMoviePaginator.resetMovie();
+    await _searchMoviePaginator.resetMovie();
     await loadNextPage();
     notifyListeners();
   }
 
   Future<void> loadNextPage() async {
-    if (_isLoadingInProgress || _currentPage >= _totalPage) return;
-    _isLoadingInProgress = true;
-    final nextPage = _currentPage + 1;
-    try {
-      final moviesOtherResponse = await _loadMovies(nextPage);
-      _currentPage = moviesOtherResponse.page;
-      _totalPage = moviesOtherResponse.pages;
-      _movies.addAll(moviesOtherResponse.movies.map(_makeRowData).toList());
-      _isLoadingInProgress = false;
-      notifyListeners();
-    } catch (e) {
-      _isLoadingInProgress = false;
+    if (isSearchMode) {
+      await _searchMoviePaginator.loadNextPage();
+      _movies = _searchMoviePaginator.data.map(_makeRowData).toList();
+    } else {
+      await _popularMoviePaginator.loadNextPage();
+      _movies = _popularMoviePaginator.data.map(_makeRowData).toList();
     }
   }
 
-  Future<PopularMovieResponse> _loadMovies(int nextPage) async {
-    final text = _searchQuery;
-    if (text == null) {
-      return await _apiClient.otherMovie(nextPage);
-    } else {
-      return await _apiClient.searchQuearyMovie(nextPage, text);
-    }
-  }
+  // Future<PopularMovieResponse> _loadMovies(int nextPage) async {
+  //   final text = _searchQuery;
+  //   if (text == null) {
+  //     return await _apiClient.otherMovie(nextPage);
+  //   } else {
+  //     return await _apiClient.searchQuearyMovie(nextPage, text);
+  //   }
+  // }
 
   MovieListRowData _makeRowData(Movie movie) {
     final poster = movie.poster?.previewUrl ?? movie.poster?.url;
     final rationg =
         movie.rating?.kp != null ? movie.rating!.kp.toString() : '0';
-    final genres =
-        movie.genres[0].name != null ? movie.genres[0].name.toString() : 'Жанр';
+    final genres = movie.genres;
+
+    final genresName = genres != null && genres.isNotEmpty
+        ? genres[0].name.toString()
+        : 'Жанр';
+
     final year = movie.year != null ? movie.year.toString() : '0';
     final time = movie.movieLength != null ? movie.movieLength.toString() : '0';
     return MovieListRowData(
@@ -92,7 +112,7 @@ class MovieListViewModel extends ChangeNotifier {
       name: movie.name,
       poster: poster,
       rating: rationg,
-      genres: genres,
+      genres: genresName,
       year: year,
       time: time,
     );
@@ -114,13 +134,18 @@ class MovieListViewModel extends ChangeNotifier {
       final searchQuery = text.isNotEmpty ? text : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
-      await resetMovie();
+
+      _movies.clear();
+      if (isSearchMode) {
+        await resetList();
+      }
+      await loadNextPage();
     });
   }
 
   // Подгрузка фильмов если список доходит до конца
   void showedMovieAtIndex(int index) {
-    if (index < _movies.length) return;
+    if (index < _movies.length - 1) return;
     loadNextPage();
   }
 }
