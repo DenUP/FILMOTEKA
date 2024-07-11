@@ -28,7 +28,7 @@ class Movie {
   final int? ageRating;
   final PosterUrl? poster;
   final PosterUrl? backdrop;
-  final List<Genres> genres;
+  final List<Genres>? genres;
   final List<Genres>? countries;
   final int? top10;
   final int? top250;

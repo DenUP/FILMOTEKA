@@ -132,12 +132,14 @@ class _MovieNameWidget extends StatelessWidget {
                   const TextStyle(color: colors.mainBackground, fontSize: 25),
             ),
           );
-    final urlTrailer = model?.movieDetails?.videos?.trailers![0].url.toString();
-    final trailer = model?.movieDetails?.videos?.trailers?[0].url != null
+ 
+    final listTrailer = model?.movieDetails?.videos?.trailers;
+    final urlTrailer = listTrailer != null && listTrailer.isNotEmpty ? listTrailer[0].url.toString() : '';
+    final  trailer =  listTrailer != null && listTrailer.isNotEmpty && listTrailer[0].url != null
         ? ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushNamed(MainNavigationRouteName.trailer,
-                  arguments: urlTrailer as String);
+                  arguments: urlTrailer);
             },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.start,

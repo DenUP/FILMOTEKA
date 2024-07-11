@@ -14,7 +14,7 @@ class MovieApiClient {
       return response;
     }
 
-    final result = _networkClient.get(
+    final result = await _networkClient.get(
       'movie?page=${page.toString()}&limit=200&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
       parser,
     );
@@ -28,7 +28,7 @@ class MovieApiClient {
       return responseMovie;
     }
 
-    final result = _networkClient.get(
+    final result = await _networkClient.get(
         'movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250',
         parser);
 
@@ -42,7 +42,7 @@ class MovieApiClient {
       return responseMovie;
     }
 
-    final result = _networkClient.get(
+    final result = await _networkClient.get(
         'movie?page=$page&limit=200&notNullFields=poster.url&lists=popular-films',
         parser);
     return result;
@@ -55,7 +55,7 @@ class MovieApiClient {
       return responseMovie;
     }
 
-    final result = _networkClient.get('movie/$id', parser);
+    final result = await _networkClient.get('movie/$id', parser);
     return result;
   }
 
@@ -68,7 +68,7 @@ class MovieApiClient {
       return responseMovie;
     }
 
-    final result = _networkClient.get(
+    final result = await _networkClient.get(
         'movie/search?page=${page.toString()}&field[]=genres.name&field=typeNumber&limit=50&query=$decoded',
         parser);
 
@@ -76,13 +76,13 @@ class MovieApiClient {
   }
 }
 
-class MyHttpOverrides extends HttpOverrides {
-  final int maxConnections = 105;
+// class MyHttpOverrides extends HttpOverrides {
+//   final int maxConnections = 105;
 
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    final HttpClient client = super.createHttpClient(context);
-    client.maxConnectionsPerHost = maxConnections;
-    return client;
-  }
-}
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     final HttpClient client = super.createHttpClient(context);
+//     client.maxConnectionsPerHost = maxConnections;
+//     return client;
+//   }
+// }

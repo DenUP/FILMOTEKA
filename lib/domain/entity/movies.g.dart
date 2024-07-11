@@ -16,7 +16,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
           .toList(),
       type: json['type'] as String,
       typeNumber: (json['typeNumber'] as num).toInt(),
-      year: (json['year'] as num).toInt(),
+      year: (json['year'] as num?)?.toInt(),
       description: json['description'] as String?,
       shortDescription: json['shortDescription'] as String?,
       status: json['status'],
