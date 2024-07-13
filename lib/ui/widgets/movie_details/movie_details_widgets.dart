@@ -49,6 +49,9 @@ class _MovieDetailsWidgetsState extends State<MovieDetailsWidgets> {
             onPressed: () {
               setState(() {
                 iconTrue == false ? iconTrue = true : iconTrue = false;
+                iconTrue == true
+                    ? model?.addFavorite()
+                    : model?.clearFavorite();
               });
               ;
             },
