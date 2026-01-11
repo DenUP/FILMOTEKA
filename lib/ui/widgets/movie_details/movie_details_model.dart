@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class MovieDetailsModel extends ChangeNotifier {
   final _apiClient = MovieApiClient();
-  final _supbaseService = SupbaseService();
+  final _supbaseService = SupabaseService();
   final int movieId;
   MovieDetails? _movieDetails;
 

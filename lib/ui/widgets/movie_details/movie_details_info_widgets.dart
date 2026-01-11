@@ -35,34 +35,40 @@ class _TopPosterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    final urlToImageBackground = model?.movieDetails?.backdrop?.url != null
-        ? Image.network(model?.movieDetails?.backdrop?.url ?? '/',
-            fit: BoxFit.fill)
-        // : FadeInImage.assetNetwork(
-        //     fadeInCurve: Curves.bounceIn,
-        //     placeholder: '',
-        //     image: model?.movieDetails?.backdrop?.url ?? '',
-        //     fit: BoxFit.fill,
-        //   );
-        : Container(
-            width: double.infinity,
-            height: 200,
-            color: colors.mainTitle,
-            child: Text(
-              textAlign: TextAlign.center,
-              model?.movieDetails?.name.toString() ?? '',
-              style:
-                  const TextStyle(color: colors.mainBackground, fontSize: 25),
-            ),
-          );
+
+    // ПРАВИЛЬНАЯ ПРОВЕРКА:
+    final backdrop = model?.movieDetails?.backdrop;
+    final backdropUrl = backdrop?.url;
+
+    // Проверяем, что URL не null и не пустой, и начинается с http
+    final hasValidBackdrop = backdropUrl != null &&
+        backdropUrl.isNotEmpty &&
+        backdropUrl.startsWith('http');
+
+    Widget backgroundWidget;
+
+    if (hasValidBackdrop) {
+      backgroundWidget = Image.network(
+        backdropUrl,
+        fit: BoxFit.fill,
+        errorBuilder: (context, error, stackTrace) {
+          // Если загрузка изображения не удалась, показываем заглушку
+          return _buildPlaceholder(context, model);
+        },
+      );
+    } else {
+      backgroundWidget = _buildPlaceholder(context, model);
+    }
 
     return Stack(
       children: [
         ClipRRect(
-            borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20)),
-            child: urlToImageBackground),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          child: backgroundWidget,
+        ),
         Positioned(
           right: 12,
           bottom: 10,
@@ -102,6 +108,21 @@ class _TopPosterWidget extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildPlaceholder(BuildContext context, MovieDetailsModel? model) {
+    return Container(
+      width: double.infinity,
+      height: 200,
+      color: colors.mainTitle,
+      child: Center(
+        child: Text(
+          model?.movieDetails?.name ?? 'Нет изображения',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: colors.mainBackground, fontSize: 25),
+        ),
+      ),
+    );
+  }
 }
 
 class _MovieNameWidget extends StatelessWidget {
@@ -110,32 +131,35 @@ class _MovieNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    final urlMainImagesMovie = model?.movieDetails?.poster?.url != null
-        ? Image.network(
-            model?.movieDetails?.poster?.url ?? '',
-            width: 110,
-          )
-        // : FadeInImage.assetNetwork(
-        //     fadeInCurve: Curves.bounceIn,
-        //     placeholder: '',
-        //     image: model?.movieDetails?.backdrop?.url ?? '',
-        //     fit: BoxFit.fill,
-        //   );
-        : Container(
-            width: 150,
-            height: 150,
-            color: colors.mainTitle,
-            child: Text(
-              textAlign: TextAlign.center,
-              model?.movieDetails?.name.toString() ?? '',
-              style:
-                  const TextStyle(color: colors.mainBackground, fontSize: 25),
-            ),
-          );
- 
+
+    // Проверяем валидность URL постера
+    final poster = model?.movieDetails?.poster;
+    final posterUrl = poster?.url;
+    final hasValidPoster = posterUrl != null &&
+        posterUrl.isNotEmpty &&
+        posterUrl.startsWith('http');
+
+    Widget posterWidget;
+
+    if (hasValidPoster) {
+      posterWidget = Image.network(
+        posterUrl!,
+        width: 110,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPosterPlaceholder(context, model);
+        },
+      );
+    } else {
+      posterWidget = _buildPosterPlaceholder(context, model);
+    }
+
     final listTrailer = model?.movieDetails?.videos?.trailers;
-    final urlTrailer = listTrailer != null && listTrailer.isNotEmpty ? listTrailer[0].url.toString() : '';
-    final  trailer =  listTrailer != null && listTrailer.isNotEmpty && listTrailer[0].url != null
+    final urlTrailer = listTrailer != null && listTrailer.isNotEmpty
+        ? listTrailer[0].url.toString()
+        : '';
+    final trailer = listTrailer != null &&
+            listTrailer.isNotEmpty &&
+            listTrailer[0].url != null
         ? ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushNamed(MainNavigationRouteName.trailer,
@@ -157,35 +181,53 @@ class _MovieNameWidget extends StatelessWidget {
       child: Row(
         children: [
           Stack(
-            // alignment: Alignment.topLeft,
             children: [
               ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: urlMainImagesMovie),
+                borderRadius: BorderRadius.circular(16),
+                child:
+                    posterWidget, // ← ЗДЕСЬ ИСПРАВЛЕНИЕ! Было urlMainImagesMovie
+              ),
             ],
           ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(left: 12, top: 80),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  model?.movieDetails?.name ?? 'Имя',
-                  style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.w800),
-                  textAlign: TextAlign.start,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                // Трейлер
-                trailer
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12, top: 80),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model?.movieDetails?.name ?? 'Имя',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(height: 5),
+                  // Трейлер
+                  trailer,
+                ],
+              ),
             ),
-          )),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPosterPlaceholder(
+      BuildContext context, MovieDetailsModel? model) {
+    return Container(
+      width: 110,
+      height: 165,
+      color: colors.mainTitle,
+      child: Center(
+        child: Text(
+          model?.movieDetails?.name ?? '',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: colors.mainBackground, fontSize: 14),
+        ),
       ),
     );
   }
