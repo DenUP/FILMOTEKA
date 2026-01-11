@@ -30,10 +30,9 @@ class NetworkClient {
 }
 
 extension HttpClientResponseJsonDecode on HttpClientResponse {
-  Future<void> jsonDecode() async {
-    return transform(utf8.decoder)
-        .toList()
-        .then((value) => value.join())
-        .then((v) => json.decode(v));
+  Future<dynamic> jsonDecode() async {
+    // Возвращает dynamic, а не void!
+    return transform(utf8.decoder).toList().then((value) => value.join()).then(
+        (v) => json.decode(v) as Map<String, dynamic>); // Явное приведение типа
   }
 }
