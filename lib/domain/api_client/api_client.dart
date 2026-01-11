@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:filmoteka/configuration/configuration.dart';
 import 'package:filmoteka/domain/api_client/network_client.dart';
 import 'package:filmoteka/domain/entity/movie_details.dart';
 import 'package:filmoteka/domain/entity/popular_movie_response.dart';
@@ -7,49 +6,51 @@ import 'package:filmoteka/domain/entity/popular_movie_response.dart';
 class MovieApiClient {
   final _networkClient = NetworkClient();
 
-  // Остальные фильмы
-  Future<PopularMovieResponse> otherMovie(int page) async {
+  // Популярные фильмы (главная страница)
+  Future<PopularMovieResponse> getPopularMovies(int page) async {
+    parser(dynamic json) {
+      final response = PopularMovieResponse.fromJson(json);
+      return response;
+    }
+
+    // Упрощенный запрос без сложных фильтров
+    final result = await _networkClient.get(
+      'movie?page=$page&limit=${Configuration.defaultLimit}&lists=popular-films',
+      parser,
+    );
+    return result;
+  }
+
+  // Топ фильмы
+  Future<PopularMovieResponse> getTopMovies() async {
     parser(dynamic json) {
       final response = PopularMovieResponse.fromJson(json);
       return response;
     }
 
     final result = await _networkClient.get(
-      'movie?page=${page.toString()}&limit=200&notNullFields=movieLength&notNullFields=poster.url&notNullFields=genres.name&type=movie&rating.kp=6-10',
+      'movie?page=1&limit=10&lists=top250',
       parser,
     );
     return result;
   }
 
-  // Header - Top 5
-  Future<PopularMovieResponse> topMovie() async {
+  // Новые фильмы
+  Future<PopularMovieResponse> getNewMovies(int page) async {
     parser(dynamic json) {
-      final responseMovie = PopularMovieResponse.fromJson(json);
-      return responseMovie;
+      final response = PopularMovieResponse.fromJson(json);
+      return response;
     }
 
     final result = await _networkClient.get(
-        'movie?page=1&limit=10&notNullFields=name&notNullFields=poster.url&lists=top250',
-        parser);
-
+      'movie?page=$page&limit=${Configuration.defaultLimit}&year=${DateTime.now().year}&sortField=year&sortType=-1',
+      parser,
+    );
     return result;
   }
 
-  // News_Popular
-  Future<PopularMovieResponse> newsPopular(int page) async {
-    parser(dynamic json) {
-      final responseMovie = PopularMovieResponse.fromJson(json);
-      return responseMovie;
-    }
-
-    final result = await _networkClient.get(
-        'movie?page=$page&limit=200&notNullFields=poster.url&lists=popular-films',
-        parser);
-    return result;
-  }
-
-  // Описание фильма
-  Future<MovieDetails> movieDetails(int id) async {
+  // Детали фильма
+  Future<MovieDetails> getMovieDetails(int id) async {
     parser(dynamic json) {
       final responseMovie = MovieDetails.fromJson(json);
       return responseMovie;
@@ -59,30 +60,49 @@ class MovieApiClient {
     return result;
   }
 
-  // Поиск фильмов TextField
-  Future<PopularMovieResponse> searchQuearyMovie(int page, String query) async {
-    // Декодировение строки в запрос
-    var decoded = Uri.encodeComponent(query);
+  // Поиск фильмов
+  Future<PopularMovieResponse> searchMovies(int page, String query) async {
+    // Декодируем строку для URL
+    var encodedQuery = Uri.encodeComponent(query);
+
     parser(dynamic json) {
       final responseMovie = PopularMovieResponse.fromJson(json);
       return responseMovie;
     }
 
     final result = await _networkClient.get(
-        'movie/search?page=${page.toString()}&field[]=genres.name&field=typeNumber&limit=50&query=$decoded',
-        parser);
+      'movie/search?page=$page&limit=${Configuration.defaultLimit}&query=$encodedQuery',
+      parser,
+    );
+    return result;
+  }
 
+  // Фильмы по жанрам
+  Future<PopularMovieResponse> getMoviesByGenre(String genre, int page) async {
+    parser(dynamic json) {
+      final response = PopularMovieResponse.fromJson(json);
+      return response;
+    }
+
+    final encodedGenre = Uri.encodeComponent(genre);
+    final result = await _networkClient.get(
+      'movie?page=$page&limit=${Configuration.defaultLimit}&genres.name=$encodedGenre',
+      parser,
+    );
+    return result;
+  }
+
+  // Фильмы по году
+  Future<PopularMovieResponse> getMoviesByYear(int year, int page) async {
+    parser(dynamic json) {
+      final response = PopularMovieResponse.fromJson(json);
+      return response;
+    }
+
+    final result = await _networkClient.get(
+      'movie?page=$page&limit=${Configuration.defaultLimit}&year=$year',
+      parser,
+    );
     return result;
   }
 }
-
-// class MyHttpOverrides extends HttpOverrides {
-//   final int maxConnections = 105;
-
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     final HttpClient client = super.createHttpClient(context);
-//     client.maxConnectionsPerHost = maxConnections;
-//     return client;
-//   }
-// }

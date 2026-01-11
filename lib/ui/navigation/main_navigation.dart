@@ -7,6 +7,7 @@ abstract class MainNavigationRouteName {
   static const mainScreen = '/main_screen';
   static const movieDetails = '/main_screen/movie_details';
   static const trailer = '/main_screen/movie_details/trailer';
+  static const favorites = '/main_screen/favorites';
 }
 
 class MainNavigation {
@@ -14,7 +15,8 @@ class MainNavigation {
   final routes = <String, WidgetBuilder>{
     MainNavigationRouteName.loader: (_) => _screenFactory.makeLoader(),
     MainNavigationRouteName.auth: (_) => _screenFactory.makeAuth(),
-    MainNavigationRouteName.mainScreen: (_) => _screenFactory.makeMainScreen()
+    MainNavigationRouteName.mainScreen: (_) => _screenFactory.makeMainScreen(),
+    MainNavigationRouteName.favorites: (_) => _screenFactory.makeFavorites(),
   };
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -22,14 +24,16 @@ class MainNavigation {
         final argument = settings.arguments;
         final movieId = argument is int ? argument : 0;
         return MaterialPageRoute(
-            builder: (_) => _screenFactory.makeMovieDetails(movieId));
+          builder: (_) => _screenFactory.makeMovieDetails(movieId),
+        );
       case MainNavigationRouteName.trailer:
         final argument = settings.arguments;
         final String youtubeKey = argument is String ? argument : '';
         return MaterialPageRoute(
-            builder: (_) => _screenFactory.makeMovieTrailer(youtubeKey));
+          builder: (_) => _screenFactory.makeMovieTrailer(youtubeKey),
+        );
       default:
-        const errorWidget = Text('Erroor text');
+        const errorWidget = Text('Error: Route not found');
         return MaterialPageRoute(builder: (_) => errorWidget);
     }
   }

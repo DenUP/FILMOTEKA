@@ -196,7 +196,7 @@ class _SearchWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: TextField(
-        onChanged: model.serachMovie,
+        onChanged: model.searchMovie,
         decoration: const InputDecoration(
           hintText: 'Поиск',
         ),

@@ -4,13 +4,11 @@ import 'package:filmoteka/configuration/configuration.dart';
 
 class NetworkClient {
   final _client = HttpClient();
-  // Создание URL
 
-  Uri _makeUri(
-    String path,
-  ) {
+  Uri _makeUri(String path) {
     const host = Configuration.host;
-    final uri = Uri.parse('$host$path'); // Ne ykazan URL HOST
+    final uri = Uri.parse('$host$path');
+    print('API Request: $uri'); // Для отладки
     return uri;
   }
 
@@ -18,21 +16,35 @@ class NetworkClient {
     String path,
     T Function(dynamic json) parser,
   ) async {
-    final url = _makeUri(path);
-    final request = await _client.getUrl(url);
-    request.headers.contentType;
-    request.headers.add('X-API-KEY', Configuration.apiKey);
-    final response = await request.close();
-    final json = (await response.jsonDecode() as Map<String, dynamic>);
-    final result = parser(json);
-    return result;
-  }
-}
+    try {
+      final url = _makeUri(path);
+      final request = await _client.getUrl(url);
 
-extension HttpClientResponseJsonDecode on HttpClientResponse {
-  Future<dynamic> jsonDecode() async {
-    // Возвращает dynamic, а не void!
-    return transform(utf8.decoder).toList().then((value) => value.join()).then(
-        (v) => json.decode(v) as Map<String, dynamic>); // Явное приведение типа
+      // Устанавливаем заголовки для PoiskKino
+      request.headers.add('X-API-KEY', Configuration.apiKey);
+      request.headers.contentType = ContentType.json;
+
+      final response = await request.close();
+
+      // Проверяем статус ответа
+      if (response.statusCode != 200) {
+        throw HttpException(
+          'Request failed with status: ${response.statusCode}',
+          uri: url,
+        );
+      }
+
+      // Читаем ответ
+      final jsonString = await response.transform(utf8.decoder).join();
+      final json = jsonDecode(jsonString) as Map<String, dynamic>;
+
+      return parser(json);
+    } on SocketException catch (e) {
+      print('SocketException: $e');
+      rethrow;
+    } catch (e) {
+      print('Network error: $e');
+      rethrow;
+    }
   }
 }

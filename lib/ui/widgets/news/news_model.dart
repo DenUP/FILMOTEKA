@@ -8,86 +8,96 @@ import 'package:flutter/material.dart';
 
 class NewsModel extends ChangeNotifier {
   final _apiClient = MovieApiClient();
-  late int _currentPage;
-  late int _totalPage;
-  var _isLoadingInProgress = false;
-  final _topMovies = <Movie>[];
-  final _popularMovies = <Movie>[];
+  int _currentPage = 0;
+  int _totalPage = 1;
+  bool _isLoadingInProgress = false;
+  bool _hasMore = true;
+  final List<Movie> _topMovies = [];
+  final List<Movie> _popularMovies = [];
 
   List<Movie> get topMovies => List.unmodifiable(_topMovies);
   List<Movie> get popularMovies => List.unmodifiable(_popularMovies);
-
-// Загрузка популярные фильмов
-  // Future<void> popularMovie() async {
-  //   await _resetMovie();
-  //   final moviesPopularResponse = await _apiClient.popularMovie();
-  //   _movies.addAll(moviesPopularResponse.movies);
-  //   notifyListeners();
-  // }
-
-// После уже остальные фильмы полгружаются
+  bool get isLoading => _isLoadingInProgress;
+  bool get hasMore => _hasMore;
 
   Future<void> resetMovie() async {
     _currentPage = 0;
     _totalPage = 1;
+    _hasMore = true;
     _topMovies.clear();
     _popularMovies.clear();
-    await loadNextPage();
-    await loadNextPageFavorite();
 
-    // notifyListeners();
+    await Future.wait([
+      loadTopMovies(),
+      loadNextPage(),
+    ]);
+
+    notifyListeners();
+  }
+
+  Future<void> loadTopMovies() async {
+    try {
+      print('🔄 Loading top movies...');
+      final moviesResponse = await _apiClient.getTopMovies();
+      _topMovies.addAll(moviesResponse.movies);
+      print('✅ Loaded ${_topMovies.length} top movies');
+    } catch (e) {
+      print("❌ Error loading top movies: $e");
+    }
   }
 
   Future<void> loadNextPage() async {
-    // if (_isLoadingInProgress || _currentPage >= _totalPage) return;
-    try {
-      final moviesOtherResponse = await _apiClient.topMovie();
-      _topMovies.addAll(moviesOtherResponse.movies);
-      notifyListeners();
-    } catch (e) {
-      print("Error News_model.dart - LoadNextPage --- $e");
-    }
-  }
+    if (_isLoadingInProgress || !_hasMore) return;
 
-  Future<void> loadNextPageFavorite() async {
-    if (_isLoadingInProgress || _currentPage >= _totalPage) return;
     _isLoadingInProgress = true;
-    final nextPage = _currentPage + 1;
+    notifyListeners();
+
     try {
-      final moviesOtherResponse = await _loadMovieFavorite(nextPage);
-      _currentPage = moviesOtherResponse.page;
-      _totalPage = moviesOtherResponse.pages;
-      _popularMovies.addAll(moviesOtherResponse.movies);
+      final nextPage = _currentPage + 1;
+      print('🔄 Loading page $nextPage...');
+
+      final moviesResponse = await _apiClient.getPopularMovies(nextPage);
+
+      print('📊 Response: page ${moviesResponse.page}/${moviesResponse.pages}, '
+          'movies: ${moviesResponse.movies.length}');
+
+      if (moviesResponse.movies.isEmpty) {
+        _hasMore = false;
+        print('📭 No more movies to load');
+      } else {
+        _currentPage = moviesResponse.page;
+        _totalPage = moviesResponse.pages;
+        _popularMovies.addAll(moviesResponse.movies);
+        _hasMore = _currentPage < _totalPage;
+        print('✅ Added ${moviesResponse.movies.length} movies. '
+            'Total: ${_popularMovies.length}. Has more: $_hasMore');
+      }
+    } catch (e) {
+      print("❌ Error loading popular movies: $e");
+      _hasMore = false; // На случай ошибки, чтобы не пытаться снова
+    } finally {
       _isLoadingInProgress = false;
       notifyListeners();
-    } catch (e) {
-      _isLoadingInProgress = false;
     }
-  }
-
-  Future<PopularMovieResponse> _loadMovieFavorite(int nextPage) async {
-    return _apiClient.newsPopular(nextPage);
   }
 
   void onMovieTap(BuildContext context, int index) {
-    final id = _topMovies[index].id;
-    Navigator.of(context).pushNamed(
-      MainNavigationRouteName.movieDetails,
-      arguments: id,
-    );
+    if (index < _topMovies.length) {
+      final id = _topMovies[index].id;
+      Navigator.of(context).pushNamed(
+        MainNavigationRouteName.movieDetails,
+        arguments: id,
+      );
+    }
   }
 
   void onMovieFavorite(BuildContext context, int index) {
-    final id = _popularMovies[index].id;
-    Navigator.of(context).pushNamed(
-      MainNavigationRouteName.movieDetails,
-      arguments: id,
-    );
-  }
-
-  // Подгрузка фильмов если список доходит до конца
-  void showedMovieAtIndex(int index) {
-    if (index < _popularMovies.length) return;
-    loadNextPage();
+    if (index < _popularMovies.length) {
+      final id = _popularMovies[index].id;
+      Navigator.of(context).pushNamed(
+        MainNavigationRouteName.movieDetails,
+        arguments: id,
+      );
+    }
   }
 }

@@ -41,15 +41,7 @@ class NewsCatalogWidget extends StatelessWidget {
                                 value: downloadProgress.progress),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
-                  )
-
-                  // Image.network(
-                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                  //   height: 250,
-                  //   width: 100,
-                  //   fit: BoxFit.cover,
-                  // ),
-                  ));
+                  )));
         });
   }
 }

@@ -3,7 +3,7 @@ import 'package:filmoteka/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  final _sessionDataProvider = SessionDataProvider(); 
+  final _sessionDataProvider = SessionDataProvider();
   Future<bool> isAuth() async {
     final sessionId = await _sessionDataProvider.getSessionId();
     final isAuth = sessionId != null;
@@ -11,6 +11,7 @@ class AuthService {
   }
 
   Future<void> login(String login, String password) async {
+    final supabase = Supabase.instance.client;
     final AuthResponse res = await supabase.auth.signInWithPassword(
       email: login,
       password: password,

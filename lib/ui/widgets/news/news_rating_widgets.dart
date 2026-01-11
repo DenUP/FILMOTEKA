@@ -38,12 +38,6 @@ class NewsRatingWidgets extends StatelessWidget {
                                 value: downloadProgress.progress),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                  // Image.network(
-                  //   movies.poster?.url ?? movies.poster?.previewUrl ?? '',
-                  //   fit: BoxFit.fill,
-                  //   width: 150,
-                  //   height: 210,
-                  // ),
                 ),
                 Positioned(
                     height: 140,

@@ -13,6 +13,8 @@ import 'package:filmoteka/ui/widgets/movie_trailer/movie_trailer_widget.dart';
 import 'package:filmoteka/ui/widgets/news/news_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:filmoteka/ui/widgets/favorites/favorites_model.dart';
+import 'package:filmoteka/ui/widgets/favorites/favorites_widget.dart';
 
 class ScreenFactory {
   Widget makeLoader() {
@@ -55,6 +57,14 @@ class ScreenFactory {
   Widget makeMovieTrailer(String youtubeKey) {
     return MovieTrailerWidget(
       youtubeKey: youtubeKey,
+    );
+  }
+
+  Widget makeFavorites() {
+    print('🛠️ ScreenFactory: Creating FavoritesWidget with NotifierProvider');
+    return old_provider.NotifierProvider(
+      create: () => FavoritesModel(),
+      child: const FavoritesWidget(),
     );
   }
 }

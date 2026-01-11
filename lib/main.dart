@@ -1,7 +1,10 @@
+// В main.dart добавьте проверку
+import 'package:filmoteka/domain/services/supbase_service.dart';
 import 'package:filmoteka/ui/widgets/app/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+// Вызовите в main()
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -10,10 +13,5 @@ Future<void> main() async {
     anonKey: 'sb_publishable_1OCGhc0JQ5KATEgtGDcQig_-7J2LfSi',
   );
 
-  runApp(
-    const App(),
-  );
+  runApp(const App());
 }
-
-// Get a reference your Supabase client
-final supabase = Supabase.instance.client;
